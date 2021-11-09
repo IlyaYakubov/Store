@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,7 +11,7 @@
 <body>
 <br>
 <div class="container">
-    <form action="./" method="get">
+    <form th:action="'/'" method="post">
         <h1>Авторизация</h1>
         <hr>
         <div class="mb-3">

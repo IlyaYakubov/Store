@@ -20,6 +20,29 @@ public class SingInController {
         return "user/cabinet";
     }
 
+    @GetMapping("/add/user")
+    public String user(@RequestParam("name") String name,
+                       @RequestParam("surname") String surname,
+                       @RequestParam("middleName") String middleName,
+                       @RequestParam("country") String country,
+                       @RequestParam("city") String city,
+                       @RequestParam("phone") String phone,
+                       @RequestParam("email") String email) {
+        User user = new User();
+        user.setId(UsersServiceImpl.INSTANCE.nextId());
+        user.setName(name);
+        user.setSurname(surname);
+        user.setMiddleName(middleName);
+        user.setCountry(country);
+        user.setCity(city);
+        user.setPhone(phone);
+        user.setEmail(email);
+
+        UsersServiceImpl.INSTANCE.add(user);
+
+        return "redirect:/";
+    }
+
     @PostMapping("/cabinet/{userId}")
     public String editUserInCabinet(@PathVariable("userId") int userId,
                          @RequestParam("name") String name,

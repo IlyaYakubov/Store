@@ -13,7 +13,7 @@
 <div class="container">
     <h1>Личный кабинет</h1>
     <hr>
-    <form action="update/user/${user.id}" method="post">
+    <form th:action="'/update/user/' + ${user.id}" method="post">
         <div class="container-fluid">
             <div class="input-group mb-3">
                 <span class="input-group-text" id="inputGroup-sizing-default1">Имя</span>
