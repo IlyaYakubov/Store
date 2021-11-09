@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -32,12 +32,12 @@
     <hr>
     <div class="row row-cols-12">
         <div class="col-1">
-            <a href="<c:url value="/users/block/${user.id}"/>">
+            <a th:href="'/users/block/' + ${user.id}"/>
                 <button type="button" class="btn btn-primary">Заблокировать</button>
             </a>
         </div>
         <div class="col-1">
-            <a href="<c:url value="/users/delete/${user.id}"/>">
+            <a th:href="'/users/delete/' + ${user.id}"/>
                 <button type="button" class="btn btn-primary">Удалить</button>
             </a>
         </div>
@@ -46,19 +46,19 @@
     <br>
     <ul class="list-group list-group-flush">
         <li class="list-group-item">Фамилия
-            <p>${user.surname}</p></li>
+            <p th:text="${user.surname}"></p></li>
         <li class="list-group-item">Имя
-            <p>${user.name}</p></li>
+            <p th:text="${user.name}"></p></li>
         <li class="list-group-item">Отчество
-            <p>${user.middleName}</p></li>
+            <p th:text="${user.middleName}"></p></li>
         <li class="list-group-item">Страна
-            <p>${user.country}</p></li>
+            <p th:text="${user.country}"></p></li>
         <li class="list-group-item">Город
-            <p>${user.city}</p></li>
+            <p th:text="${user.city}"></p></li>
         <li class="list-group-item">Телефон
-            <p>${user.phone}</p></li>
+            <p th:text="${user.phone}"></p></li>
         <li class="list-group-item">Email
-            <p>${user.email}</p></li>
+            <p th:text="${user.email}"></p></li>
     </ul>
     <br>
     <table class="table">

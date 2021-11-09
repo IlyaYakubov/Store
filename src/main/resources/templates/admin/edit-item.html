@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -37,32 +37,32 @@
     <form action="../item/${item.id}" method="post">
         <div class="input-group mb-3">
             <span class="input-group-text" id="inputGroup-sizing-default1">Категория</span>
-            <input type="text" class="form-control" aria-label="category" name="category" value=${item.category}
+            <input type="text" class="form-control" aria-label="category" name="category" th:value="${item.name}"
                    aria-describedby="inputGroup-sizing-default">
         </div>
         <div class="input-group mb-3">
             <span class="input-group-text" id="inputGroup-sizing-default2">Наименование</span>
-            <input type="text" class="form-control" aria-label="name" name="name" value=${item.name}
+            <input type="text" class="form-control" aria-label="name" name="name" th:value="${item.name}"
                    aria-describedby="inputGroup-sizing-default">
         </div>
         <div class="input-group mb-3">
             <span class="input-group-text" id="inputGroup-sizing-default3">Бренд</span>
-            <input type="text" class="form-control" aria-label="brand" name="brand" value=${item.brand}
+            <input type="text" class="form-control" aria-label="brand" name="brand" th:value="${item.brand}"
                    aria-describedby="inputGroup-sizing-default">
         </div>
         <div class="input-group mb-3">
             <span class="input-group-text" id="inputGroup-sizing-default4">Размер</span>
-            <input type="text" class="form-control" aria-label="size" name="size" value=${item.size}
+            <input type="text" class="form-control" aria-label="size" name="size" th:value="${item.size}"
                    aria-describedby="inputGroup-sizing-default">
         </div>
         <div class="input-group mb-3">
             <span class="input-group-text" id="inputGroup-sizing-default5">Цвет</span>
-            <input type="text" class="form-control" aria-label="color" name="color" value=${item.color}
+            <input type="text" class="form-control" aria-label="color" name="color" th:value="${item.color}"
                    aria-describedby="inputGroup-sizing-default">
         </div>
         <div class="input-group mb-3">
             <span class="input-group-text" id="inputGroup-sizing-default6">Цена</span>
-            <input type="text" class="form-control" aria-label="price" name="price" value=${item.price}
+            <input type="text" class="form-control" aria-label="price" name="price" th:value="${item.price}"
                    aria-describedby="inputGroup-sizing-default">
         </div>
         <br>

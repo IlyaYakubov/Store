@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,40 +18,40 @@
             <div class="input-group mb-3">
                 <span class="input-group-text" id="inputGroup-sizing-default1">Имя</span>
                 <input type="text" class="form-control" aria-label="name" aria-describedby="inputGroup-sizing-default"
-                       name="name" value=${user.name}>
+                       name="name" th:value="${user.name}">
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text" id="inputGroup-sizing-default2">Фамилия</span>
                 <input type="text" class="form-control" aria-label="surname"
                        aria-describedby="inputGroup-sizing-default"
-                       name="surname" value=${user.surname}>
+                       name="surname" th:value="${user.surname}">
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text" id="inputGroup-sizing-default3">Отчество</span>
                 <input type="text" class="form-control" aria-label="middleName"
                        aria-describedby="inputGroup-sizing-default"
-                       name="middleName" value=${user.middleName}>
+                       name="middleName" th:value="${user.middleName}">
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text" id="inputGroup-sizing-default4">Страна</span>
                 <input type="text" class="form-control" aria-label="country"
                        aria-describedby="inputGroup-sizing-default"
-                       name="country" value=${user.country}>
+                       name="country" th:value="${user.country}">
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text" id="inputGroup-sizing-default5">Город</span>
                 <input type="text" class="form-control" aria-label="city" aria-describedby="inputGroup-sizing-default"
-                       name="city" value=${user.city}>
+                       name="city" th:value="${user.city}">
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text" id="inputGroup-sizing-default6">Телефон</span>
                 <input type="text" class="form-control" aria-label="phone" aria-describedby="inputGroup-sizing-default"
-                       name="phone" value=${user.phone}>
+                       name="phone" th:value="${user.phone}">
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text" id="inputGroup-sizing-default7">Email</span>
                 <input type="text" class="form-control" aria-label="email" aria-describedby="inputGroup-sizing-default"
-                       name="email" value=${user.email}>
+                       name="email" th:value="${user.email}">
             </div>
             <input type="submit" class="btn btn-primary" value="Применить изменения">
         </div>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -37,16 +37,12 @@
             <thead class="table-dark">
             <tr>
                 <th scope="col">Наименование</th>
-                <%--<th scope="col">Родитель</th>--%>
             </tr>
             </thead>
             <tbody>
-            <c:forEach var="category" items="${categories}">
-                <tr>
-                    <td><a href="<c:url value="/categories/${category.id}"/>">${category.name}</a></td>
-                    <%--<td>${category.category}</td>--%>
+                <tr th:each="category : ${categories}">
+                    <td><a th:href="'/categories/' + ${category.id}" th:text="${category.name}"></a></td>
                 </tr>
-            </c:forEach>
             </tbody>
         </table>
     </form>

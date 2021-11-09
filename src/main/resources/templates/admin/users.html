@@ -30,7 +30,7 @@
 <div class="container-fluid">
     <h1>Список пользователей</h1>
     <hr>
-    <table class="table" th:list="${users}">
+    <table class="table">
         <thead class="table-dark">
         <tr>
             <th scope="col">Имя</th>
@@ -39,13 +39,11 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="user" items="${users}">
-            <tr>
-                <td><a href="<c:url value="/users/${user.id}"/>">${user.name}</a></td>
-                <td>${user.surname}</td>
-                <td>${user.block}</td>
+            <tr th:each="user : ${users}">
+                <td><a th:href="'/users/' + ${user.id}" th:text="${user.name}"></a></td>
+                <td><a th:href="'/users/' + ${user.id}" th:text="${user.surname}"></a></td>
+                <td><a th:href="'/users/' + ${user.id}" th:text="${user.block}"></a></td>
             </tr>
-        </c:forEach>
         </tbody>
     </table>
 </div>

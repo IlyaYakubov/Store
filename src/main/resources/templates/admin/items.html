@@ -44,17 +44,14 @@
                 <th scope="col">Цена</th>
             </tr>
             </thead>
-            <tbody th:list="${items}">
-            <c:forEach var="item" items="${items}">
-                <tr>
-                    <td><a href="<c:url value="/items/${item.id}"/>">${item.category}</a></td>
-                    <td><a href="<c:url value="/items/${item.id}"/>">${item.name}</a></td>
-                    <td><a href="<c:url value="/items/${item.id}"/>">${item.brand}</a></td>
-                    <td><a href="<c:url value="/items/${item.id}"/>">${item.size}</a></td>
-                    <td><a href="<c:url value="/items/${item.id}"/>">${item.color}</a></td>
-                    <td><a href="<c:url value="/items/${item.id}"/>">${item.price}</a></td>
+            <tbody>
+                <tr th:each="item : ${items}">
+                    <td><a th:href="'/items/' + ${item.id}" th:text="${item.name}"></a></td>
+                    <td><a th:href="'/items/' + ${item.id}" th:text="${item.brand}"></a></td>
+                    <td><a th:href="'/items/' + ${item.id}" th:text="${item.size}"></a></td>
+                    <td><a th:href="'/items/' + ${item.id}" th:text="${item.color}"></a></td>
+                    <td><a th:href="'/items/' + ${item.id}" th:text="${item.price}"></a></td>
                 </tr>
-            </c:forEach>
             </tbody>
         </table>
     </form>
