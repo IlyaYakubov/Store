@@ -30,7 +30,7 @@
 <div class="container-fluid">
     <h1>Товар</h1>
     <hr>
-    <form th:action="'/item/create'" method="post">
+    <form th:action="'/item/create'" method="post" enctype="multipart/form-data">
         <div class="input-group mb-3">
             <span class="input-group-text" id="inputGroup-sizing-default1">Айди категории</span>
             <input type="text" class="form-control" aria-label="category" name="categoryId"
@@ -70,10 +70,7 @@
             </thead>
         </table>
         <br>
-        <div class="container">
-            <img src="..." class="img-thumbnail" alt="...">
-        </div>
-        <button type="button" class="btn btn-primary">Загрузить изображение</button>
+        <input type="file" name="file"/>
         <hr>
         <input type="submit" class="btn btn-primary" value="Применить изменения">
     </form>

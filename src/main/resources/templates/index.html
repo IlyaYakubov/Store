@@ -46,97 +46,12 @@
 <br>
 <form action="">
     <div class="container">
-        <div class="row row-cols-3">
-            <div class="col">
-                <div class="container">
-                    <a href="catalog/items/1">
-                    <img src="images/33427930299.jpg" alt="" class="img-thumbnail">
-                    <p>Наименование товара</p>
-                    <p>1000 Р</p>
-                    </a>
-                </div>
-            </div>
-            <div class="col">
-                <div class="container">
-                    <img src="images/52279470299.jpg" alt="" class="img-thumbnail">
-                    <p>Наименование товара</p>
-                    <p>1000 Р</p>
-                </div>
-            </div>
-            <div class="col">
-                <div class="container">
-                    <img src="images/52279530299.jpg" alt="" class="img-thumbnail">
-                    <p>Наименование товара</p>
-                    <p>1000 Р</p>
-                </div>
-            </div>
-        </div>
-        <br>
-        <div class="row row-cols-3">
-            <div class="col">
-                <div class="container"><img src="images/52347240299.jpg" alt="" class="img-thumbnail">
-                    <p>Наименование товара</p>
-                    <p>1000 Р</p>
-                </div>
-            </div>
-            <div class="col">
-                <div class="container"><img src="images/52347250299.jpg" alt="" class="img-thumbnail">
-                    <p>Наименование товара</p>
-                    <p>1000 Р</p>
-                </div>
-            </div>
-            <div class="col">
-                <div class="container"><img src="images/52572260299.jpg" alt="" class="img-thumbnail">
-                    <p>Наименование товара</p>
-                    <p>1000 Р</p>
-                </div>
-            </div>
-        </div>
-        <br>
-        <div class="row row-cols-3">
-            <div class="col">
-                <div class="container"><img src="images/52693140299.jpg" alt="" class="img-thumbnail">
-                    <p>Наименование товара</p>
-                    <p>1000 Р</p>
-                </div>
-            </div>
-            <div class="col">
-                <div class="container"><img src="images/52693150299.jpg" alt="" class="img-thumbnail">
-                    <p>Наименование товара</p>
-                    <p>1000 Р</p>
-                </div>
-            </div>
-            <div class="col">
-                <div class="container"><img src="images/52841240299.jpg" alt=""
-                                            class="img-thumbnail">
-                    <p>Наименование товара</p>
-                    <p>1000 Р</p>
-                </div>
-            </div>
-        </div>
-        <br>
-        <div class="row row-cols-3">
-            <div class="col">
-                <div class="container"><img src="images/52841660299.jpg" alt=""
-                                            class="img-thumbnail">
-                    <p>Наименование товара</p>
-                    <p>1000 Р</p>
-                </div>
-            </div>
-            <div class="col">
-                <div class="container"><img src="images/53017110299.jpg" alt=""
-                                            class="img-thumbnail">
-                    <p>Наименование товара</p>
-                    <p>1000 Р</p>
-                </div>
-            </div>
-            <div class="col">
-                <div class="container"><img src="images/53655160299.jpg" alt=""
-                                            class="img-thumbnail">
-                    <p>Наименование товара</p>
-                    <p>1000 Р</p>
-                </div>
-            </div>
+        <div th:each="item : ${items}">
+            <a th:href="'/catalog/items/' + ${item.id}">
+                <img src="" alt="" class="img-thumbnail">
+                <p th:text="${item.name}"></p>
+                <p th:text="${item.price}"></p>
+            </a>
         </div>
     </div>
 </form>

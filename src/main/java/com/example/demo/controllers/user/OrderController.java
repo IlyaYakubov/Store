@@ -9,7 +9,7 @@ import com.example.demo.service.OrderServiceImpl;
 @Controller
 public class OrderController {
 
-    @PostMapping("/catalog/items/order/{itemId}")
+    @PostMapping("/order/{itemId}")
     public String editOrder(@PathVariable("itemId") int itemId) {
         OrderServiceImpl.INSTANCE.add(ItemServiceImpl.INSTANCE.getById(itemId));
         return "redirect:/";
