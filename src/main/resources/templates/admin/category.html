@@ -30,12 +30,12 @@
 <div class="container-fluid">
     <h1>Категория</h1>
     <hr>
-    <form action="category" method="post">
-        <%--<div class="input-group mb-3">
-            <span class="input-group-text" id="inputGroup-sizing-default1">Родитель</span>
-            <input type="text" class="form-control" aria-label="category-name" name="category"
+    <form th:action="'/category/create'" method="post">
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-default1">Айди родителя</span>
+            <input type="text" class="form-control" aria-label="category-name" name="categoryId"
                    aria-describedby="inputGroup-sizing-default">
-        </div>--%>
+        </div>
         <div class="input-group mb-3">
             <span class="input-group-text" id="inputGroup-sizing-default2">Наименование</span>
             <input type="text" class="form-control" aria-label="name" name="name"

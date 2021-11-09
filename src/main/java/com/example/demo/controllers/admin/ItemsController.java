@@ -16,7 +16,7 @@ public class ItemsController {
     }
 
     @GetMapping("/items/{itemId}")
-    public String editItem(@PathVariable("itemId") int itemId, Model model) {
+    public String updateItem(@PathVariable("itemId") int itemId, Model model) {
         model.addAttribute("item", ItemServiceImpl.INSTANCE.getById(itemId));
         return "admin/edit-item";
     }

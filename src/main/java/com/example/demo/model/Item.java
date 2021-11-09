@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 public class Item {
 
     private int id;
+    private int categoryId;
     private String name;
     private String brand;
     private String size;

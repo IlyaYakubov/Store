@@ -15,9 +15,9 @@ public class CategoriesController {
         return "admin/categories";
     }
 
-    @GetMapping("/categories/{categoryId}")
-    public String createCategory(@PathVariable("categoryId") int categoryId, Model model) {
-        model.addAttribute("category", CategoryServiceImpl.INSTANCE.getById(categoryId));
+    @GetMapping("/categories/{id}")
+    public String updateCategory(@PathVariable("id") int id, Model model) {
+        model.addAttribute("category", CategoryServiceImpl.INSTANCE.getById(id));
         return "admin/edit-category";
     }
 }

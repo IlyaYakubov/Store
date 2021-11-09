@@ -30,20 +30,20 @@
 <div class="container-fluid">
     <h1>Категория</h1>
     <hr>
-    <form action="../category/delete/${category.id}" method="get">
+    <form th:action="'/category/delete/' + ${category.id}" method="get">
         <input type="submit" class="btn btn-primary" value="Удалить">
     </form>
     <hr>
-    <form action="../category/${category.id}" method="post">
-        <%--<div class="input-group mb-3">
+    <form th:action="'/category/' + ${category.id}" method="post">
+        <div class="input-group mb-3">
             <span class="input-group-text" id="inputGroup-sizing-default1">Родитель</span>
-            <input type="text" class="form-control" aria-label="category-name" name="category"
-                   aria-describedby="inputGroup-sizing-default" value="${category.category}">
-        </div>--%>
+            <input type="text" class="form-control" aria-label="category-name" name="categoryId"
+                   aria-describedby="inputGroup-sizing-default" th:value="${category.categoryId}">
+        </div>
         <div class="input-group mb-3">
             <span class="input-group-text" id="inputGroup-sizing-default2">Наименование</span>
             <input type="text" class="form-control" aria-label="name" name="name"
-                   aria-describedby="inputGroup-sizing-default" value=${category.name}>
+                   aria-describedby="inputGroup-sizing-default" th:value="${category.name}">
         </div>
         <hr>
         <input type="submit" class="btn btn-primary" value="Применить изменения">

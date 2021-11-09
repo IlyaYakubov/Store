@@ -30,14 +30,14 @@
 <div class="container-fluid">
     <h1>Товар</h1>
     <hr>
-    <form action="../item/delete/${item.id}" method="get">
+    <form th:action="'/item/delete/' + ${item.id}" method="get">
         <input type="submit" class="btn btn-primary" value="Удалить">
     </form>
     <hr>
-    <form action="../item/${item.id}" method="post">
+    <form th:action="'/item/' + ${item.id}" method="post">
         <div class="input-group mb-3">
             <span class="input-group-text" id="inputGroup-sizing-default1">Категория</span>
-            <input type="text" class="form-control" aria-label="category" name="category" th:value="${item.name}"
+            <input type="text" class="form-control" aria-label="category" name="categoryId" th:value="${item.categoryId}"
                    aria-describedby="inputGroup-sizing-default">
         </div>
         <div class="input-group mb-3">

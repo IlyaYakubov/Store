@@ -19,9 +19,9 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category getById(int categoryId) {
+    public Category getById(int id) {
         for (Category category : CategoryDAO.INSTANCE.getCategories()) {
-            if (category.getId() == categoryId) {
+            if (category.getId() == id) {
                 return category;
             }
         }

@@ -30,7 +30,7 @@
 <div class="container-fluid">
     <h1>Список товаров</h1>
     <hr>
-    <form action="item" method="get">
+    <form th:action="'/item/add'" method="get">
         <button type="submit" class="btn btn-primary">Добавить товар</button>
         <hr>
         <table class="table">
@@ -46,6 +46,7 @@
             </thead>
             <tbody>
                 <tr th:each="item : ${items}">
+                    <td><a th:href="'/items/' + ${item.id}" th:text="${item.categoryId}"></a></td>
                     <td><a th:href="'/items/' + ${item.id}" th:text="${item.name}"></a></td>
                     <td><a th:href="'/items/' + ${item.id}" th:text="${item.brand}"></a></td>
                     <td><a th:href="'/items/' + ${item.id}" th:text="${item.size}"></a></td>

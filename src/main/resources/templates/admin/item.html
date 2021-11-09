@@ -30,10 +30,10 @@
 <div class="container-fluid">
     <h1>Товар</h1>
     <hr>
-    <form action="item" method="post">
+    <form th:action="'/item/create'" method="post">
         <div class="input-group mb-3">
-            <span class="input-group-text" id="inputGroup-sizing-default1">Категория</span>
-            <input type="text" class="form-control" aria-label="category" name="category"
+            <span class="input-group-text" id="inputGroup-sizing-default1">Айди категории</span>
+            <input type="text" class="form-control" aria-label="category" name="categoryId"
                    aria-describedby="inputGroup-sizing-default">
         </div>
         <div class="input-group mb-3">

@@ -28,20 +28,22 @@
 </nav>
 <br>
 <div class="container-fluid">
-    <h1>Редактирование категорий</h1>
+    <h1>Список категорий</h1>
     <hr>
-    <form action="category" method="get">
+    <form th:action="'/category/add'" method="get">
         <button type="submit" class="btn btn-primary">Добавить категорию</button>
         <hr>
         <table class="table">
             <thead class="table-dark">
             <tr>
                 <th scope="col">Наименование</th>
+                <th scope="col">Родитель</th>
             </tr>
             </thead>
             <tbody>
                 <tr th:each="category : ${categories}">
                     <td><a th:href="'/categories/' + ${category.id}" th:text="${category.name}"></a></td>
+                    <td><a th:href="'/categories/' + ${category.id}" th:text="${category.categoryId}"></a></td>
                 </tr>
             </tbody>
         </table>
