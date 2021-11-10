@@ -14,5 +14,6 @@ public class Item {
     private String size;
     private String color;
     private String price;
+    private Image image;
 
 }

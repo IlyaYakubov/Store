@@ -74,10 +74,7 @@
             </thead>
         </table>
         <br>
-        <div class="container">
-            <img src="..." class="img-thumbnail" alt="...">
-        </div>
-        <button type="button" class="btn btn-primary">Загрузить изображение</button>
+        <img class='img-thumbnail' th:src="'data:image/jpeg;base64,' + ${imgUtil.getImgData(item.image.contents)}" />
         <hr>
         <input type="submit" class="btn btn-primary" value="Применить изменения">
     </form>
