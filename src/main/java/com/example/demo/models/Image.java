@@ -1,6 +1,4 @@
-package com.example.demo.model;
-
-import java.util.Base64;
+package com.example.demo.models;
 
 public class Image {
 

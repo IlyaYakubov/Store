@@ -1,6 +1,6 @@
-package com.example.demo.repository;
+package com.example.demo.repositories;
 
-import com.example.demo.model.Image;
+import com.example.demo.models.Image;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

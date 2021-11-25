@@ -1,8 +1,8 @@
 package com.example.demo.controllers.user;
 
-import com.example.demo.model.ImageUtil;
-import com.example.demo.model.Item;
-import com.example.demo.repository.ItemDAO;
+import com.example.demo.models.ImageUtil;
+import com.example.demo.models.Item;
+import com.example.demo.repositories.ItemDAO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

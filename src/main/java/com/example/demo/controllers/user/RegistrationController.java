@@ -1,19 +1,36 @@
 package com.example.demo.controllers.user;
 
+import com.example.demo.models.RegistrationForm;
+import com.example.demo.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import com.example.demo.model.User;
-import com.example.demo.service.UsersServiceImpl;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class SingUpController {
+@RequestMapping("/registration")
+public class RegistrationController {
 
-    @GetMapping("/singup")
-    public String singUp() {
-        return "user/singup";
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @GetMapping
+    public String registration() {
+        return "registration";
     }
 
-    @PostMapping("/update/user/{userId}")
+    @PostMapping
+    public String processUser(RegistrationForm form) {
+        userRepository.save(form.toUser(passwordEncoder));
+        return "redirect:/login";
+    }
+
+    /*@PostMapping("/update/user/{userId}")
     public String editUser(@PathVariable("userId") int userId,
                              @RequestParam("name") String name,
                              @RequestParam("surname") String surname,
@@ -33,5 +50,5 @@ public class SingUpController {
 
         UsersServiceImpl.INSTANCE.add(user);
         return "redirect:/";
-    }
+    }*/
 }

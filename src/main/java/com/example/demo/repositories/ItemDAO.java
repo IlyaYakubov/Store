@@ -1,6 +1,6 @@
-package com.example.demo.repository;
+package com.example.demo.repositories;
 
-import com.example.demo.model.Item;
+import com.example.demo.models.Item;
 
 import java.util.LinkedList;
 

@@ -1,6 +1,6 @@
-package com.example.demo.service;
+package com.example.demo.services;
 
-import com.example.demo.model.User;
+import com.example.demo.models.User;
 
 import java.util.List;
 
@@ -16,5 +16,5 @@ public interface UsersService {
 
     void block(User user);
 
-    int nextId();
+    Long nextId();
 }

@@ -1,11 +1,11 @@
 package com.example.demo.controllers.admin;
 
-import com.example.demo.model.Category;
-import com.example.demo.model.Image;
-import com.example.demo.model.Item;
-import com.example.demo.repository.ImageDAO;
-import com.example.demo.service.CategoryServiceImpl;
-import com.example.demo.service.ItemServiceImpl;
+import com.example.demo.models.Category;
+import com.example.demo.models.Image;
+import com.example.demo.models.Item;
+import com.example.demo.repositories.ImageDAO;
+import com.example.demo.services.CategoryServiceImpl;
+import com.example.demo.services.ItemServiceImpl;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.util.Base64;
 
 @Controller
 public class ItemController {

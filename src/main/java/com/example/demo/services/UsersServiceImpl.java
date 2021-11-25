@@ -1,7 +1,7 @@
-package com.example.demo.service;
+package com.example.demo.services;
 
-import com.example.demo.model.User;
-import com.example.demo.repository.UserDAO;
+import com.example.demo.models.User;
+import com.example.demo.repositories.UserDAO;
 
 import java.util.List;
 
@@ -39,7 +39,7 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public int nextId() {
+    public Long nextId() {
         return (UserDAO.INSTANCE.getUsers().isEmpty()) ? 1 : UserDAO.INSTANCE.getUsers().getLast().getId() + 1;
     }
 }

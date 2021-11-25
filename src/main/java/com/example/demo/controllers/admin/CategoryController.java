@@ -1,7 +1,7 @@
 package com.example.demo.controllers.admin;
 
-import com.example.demo.model.Category;
-import com.example.demo.service.CategoryServiceImpl;
+import com.example.demo.models.Category;
+import com.example.demo.services.CategoryServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

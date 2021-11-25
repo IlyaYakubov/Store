@@ -3,8 +3,8 @@ package com.example.demo.controllers.user;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import com.example.demo.service.ItemServiceImpl;
-import com.example.demo.service.OrderServiceImpl;
+import com.example.demo.services.ItemServiceImpl;
+import com.example.demo.services.OrderServiceImpl;
 
 @Controller
 public class OrderController {

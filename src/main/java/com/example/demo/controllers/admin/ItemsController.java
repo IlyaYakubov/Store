@@ -1,11 +1,11 @@
 package com.example.demo.controllers.admin;
 
-import com.example.demo.model.ImageUtil;
+import com.example.demo.models.ImageUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import com.example.demo.service.ItemServiceImpl;
+import com.example.demo.services.ItemServiceImpl;
 
 @Controller
 public class ItemsController {

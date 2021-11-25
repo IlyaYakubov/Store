@@ -1,6 +1,6 @@
-package com.example.demo.repository;
+package com.example.demo.repositories;
 
-import com.example.demo.model.Category;
+import com.example.demo.models.Category;
 
 import java.util.LinkedList;
 

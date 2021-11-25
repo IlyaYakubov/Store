@@ -14,10 +14,23 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
+        <h2 th:if="${user != 'anonymous'}" th:text="${user}"></h2>
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="logout">
+        </form>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" th:href="'/singin'">Вход/Регистрация</a>
+                    <a class="nav-link" th:href="@{/login}">login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/registration}">registration</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/foruser}">foruser</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/foradmin}">foradmin</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button"

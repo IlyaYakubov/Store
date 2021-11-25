@@ -3,11 +3,11 @@ package com.example.demo.controllers.user;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import com.example.demo.model.User;
-import com.example.demo.service.UsersServiceImpl;
+import com.example.demo.models.User;
+import com.example.demo.services.UsersServiceImpl;
 
 @Controller
-public class SingInController {
+public class LoginController {
 
     @GetMapping("/singin")
     public String singIn() {
@@ -30,7 +30,7 @@ public class SingInController {
                        @RequestParam("email") String email) {
         User user = new User();
         user.setId(UsersServiceImpl.INSTANCE.nextId());
-        user.setName(name);
+        user.setUsername(name);
         user.setSurname(surname);
         user.setMiddleName(middleName);
         user.setCountry(country);
@@ -54,7 +54,7 @@ public class SingInController {
                          @RequestParam("email") String email) {
         for (User currentUser : UsersServiceImpl.INSTANCE.getUsers()) {
             if (currentUser.getId() == userId) {
-                currentUser.setName(name);
+                currentUser.setUsername(name);
                 currentUser.setSurname(surname);
                 currentUser.setMiddleName(middleName);
                 currentUser.setCountry(country);

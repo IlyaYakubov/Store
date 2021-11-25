@@ -1,7 +1,7 @@
-package com.example.demo.service;
+package com.example.demo.services;
 
-import com.example.demo.model.Item;
-import com.example.demo.repository.ItemDAO;
+import com.example.demo.models.Item;
+import com.example.demo.repositories.ItemDAO;
 
 import java.util.LinkedList;
 import java.util.stream.Collectors;
