@@ -43,7 +43,7 @@
             <tbody>
                 <tr th:each="category : ${categories}">
                     <td><a th:href="'/categories/' + ${category.id}" th:text="${category.name}"></a></td>
-                    <td><a th:href="'/categories/' + ${category.id}" th:text="${category.categoryId}"></a></td>
+                    <td><a th:href="'/categories/' + ${category.id}" th:text="${category.category}"></a></td>
                 </tr>
             </tbody>
         </table>

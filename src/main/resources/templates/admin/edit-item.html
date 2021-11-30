@@ -34,10 +34,10 @@
         <input type="submit" class="btn btn-primary" value="Удалить">
     </form>
     <hr>
-    <form th:action="'/item/' + ${item.id}" method="post">
+    <form th:action="'/item/' + ${item.id}" method="post" enctype="multipart/form-data">
         <div class="input-group mb-3">
             <span class="input-group-text" id="inputGroup-sizing-default1">Категория</span>
-            <input type="text" class="form-control" aria-label="category" name="categoryId" th:value="${item.categoryId}"
+            <input type="text" class="form-control" aria-label="category" name="categoryName" th:value="${item.category}"
                    aria-describedby="inputGroup-sizing-default">
         </div>
         <div class="input-group mb-3">
@@ -74,7 +74,7 @@
             </thead>
         </table>
         <br>
-        <img class='img-thumbnail' th:src="'data:image/jpeg;base64,' + ${imgUtil.getImgData(item.image.contents)}" />
+        <!--<img class='img-thumbnail' th:src="'data:image/jpeg;base64,' + ${imgUtil.getImgData(item.image.contents)}" />-->
         <hr>
         <input type="submit" class="btn btn-primary" value="Применить изменения">
     </form>

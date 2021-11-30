@@ -60,7 +60,7 @@
 <div class="container">
     <div th:each="item : ${items}">
         <a th:href="'/catalog/items/' + ${item.id}">
-            <img class='img-thumbnail' th:src="'data:image/jpeg;base64,' + ${imgUtil.getImgData(item.image.contents)}"/>
+            <!--<img class='img-thumbnail' th:src="'data:image/jpeg;base64,' + ${imgUtil.getImgData(item.image.contents)}"/>-->
             <p th:text="${item.name}"></p>
             <p th:text="${item.price}"></p>
         </a>

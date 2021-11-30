@@ -5,13 +5,17 @@ import lombok.Data;
 import javax.persistence.*;
 
 @Data
-@Entity
-@Table(name = "images")
-public class Image {
+//@Entity
+//@Table(name = "category_items")
+public class CategoryItems {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String name;
-    private byte[] contents;
+
+    @OneToOne
+    private Item item;
+
+    @OneToOne
+    private Category category;
 }

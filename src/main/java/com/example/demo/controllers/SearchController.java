@@ -1,8 +1,7 @@
-package com.example.demo.controllers.user;
+package com.example.demo.controllers;
 
-import com.example.demo.models.ImageUtil;
+import com.example.demo.storage.ImageUtil;
 import com.example.demo.models.Item;
-import com.example.demo.repositories.ItemDAO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,11 +15,11 @@ public class SearchController {
     @GetMapping("/search")
     public String editOrder(@RequestParam("search") String search, Model model) {
         LinkedList<Item> items = new LinkedList<>();
-        for (Item item : ItemDAO.INSTANCE.getItems()) {
+        /*for (Item item : ItemDAO.INSTANCE.getItems()) {
             if (search.equals(item.getName())) {
                 items.add(item);
             }
-        }
+        }*/
         model.addAttribute("items", items);
         model.addAttribute("imgUtil", new ImageUtil());
         return "index";

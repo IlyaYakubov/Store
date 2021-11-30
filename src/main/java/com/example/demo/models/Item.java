@@ -1,19 +1,30 @@
 package com.example.demo.models;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
+import javax.persistence.*;
+
 @Data
+@Entity
+@Table(name = "items")
 public class Item {
 
-    private int id;
-    private int categoryId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String name;
-    private String brand;
     private String size;
-    private String color;
     private String price;
+
+    @ManyToOne
+    private Brand brand;
+
+    @ManyToOne
+    private Color color;
+
+    @OneToOne
     private Image image;
 
+    @ManyToOne
+    private Category category;
 }

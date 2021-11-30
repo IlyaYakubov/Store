@@ -6,12 +6,13 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "images")
-public class Image {
+@Table(name = "orders")
+public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String name;
-    private byte[] contents;
+
+    @ManyToOne
+    private User user;
 }
