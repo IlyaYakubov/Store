@@ -42,7 +42,7 @@
             <tr th:each="user : ${users}">
                 <td><a th:href="'/user/' + ${user.id}" th:text="${user.username}"></a></td>
                 <td><a th:href="'/user/' + ${user.id}" th:text="${user.surname}"></a></td>
-                <td><a th:href="'/user/' + ${user.id}" th:text="${user.block}"></a></td>
+                <td><a th:href="'/user/' + ${user.id}" th:text="${user.isBlocked}"></a></td>
             </tr>
         </tbody>
     </table>

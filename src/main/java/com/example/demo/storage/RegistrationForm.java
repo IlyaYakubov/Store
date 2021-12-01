@@ -30,7 +30,7 @@ public class RegistrationForm {
         user.setCity(city);
         user.setPhone(phone);
         user.setEmail(email);
-        user.setBlock(block);
+        user.setBlocked(block);
         user.setRoles(Collections.singleton(Role.USER));
 
         return user;

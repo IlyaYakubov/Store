@@ -25,7 +25,7 @@ public class User implements UserDetails {
     private String phone;
     private String email;
     private String password;
-    private boolean block;
+    private boolean blocked;
 
     @Enumerated(EnumType.STRING)
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
@@ -49,7 +49,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return !blocked;
     }
 
     @Override

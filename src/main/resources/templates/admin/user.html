@@ -37,6 +37,11 @@
             </a>
         </div>
         <div class="col-1">
+            <a th:href="'/user/unblock/' + ${user.id}"/>
+            <button type="button" class="btn btn-primary">Разблокировать</button>
+            </a>
+        </div>
+        <div class="col-1">
             <a th:href="'/user/delete/' + ${user.id}"/>
                 <button type="button" class="btn btn-primary">Удалить</button>
             </a>

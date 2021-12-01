@@ -76,7 +76,15 @@ public class UserController {
     @GetMapping("/user/block/{id}")
     public String blockUser(@PathVariable("id") Long id) {
         User user = userRepository.findById(id).get();
-        user.setBlock(true);
+        user.setBlocked(true);
+        userRepository.save(user);
+        return "redirect:/admin";
+    }
+
+    @GetMapping("/user/unblock/{id}")
+    public String unblockUser(@PathVariable("id") Long id) {
+        User user = userRepository.findById(id).get();
+        user.setBlocked(false);
         userRepository.save(user);
         return "redirect:/admin";
     }
