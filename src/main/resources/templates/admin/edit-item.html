@@ -74,7 +74,16 @@
             </thead>
         </table>
         <br>
-        <!--<img class='img-thumbnail' th:src="'data:image/jpeg;base64,' + ${imgUtil.getImgData(item.image.contents)}" />-->
+        <img class='img-thumbnail' th:src="@{'/images/' + ${filename}}" alt="Картинка"/>
+        <td>
+            <div class="form-group">
+                <div class="col-md-8">
+                    <table>
+                        <tr><td><input type="file" name="filename" th:value="${filename}" /></td></tr>
+                    </table>
+                </div>
+            </div>
+        </td>
         <hr>
         <input type="submit" class="btn btn-primary" value="Применить изменения">
     </form>

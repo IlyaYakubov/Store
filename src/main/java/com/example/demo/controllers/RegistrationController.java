@@ -1,6 +1,6 @@
 package com.example.demo.controllers;
 
-import com.example.demo.storage.RegistrationForm;
+import com.example.demo.models.RegistrationForm;
 import com.example.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;

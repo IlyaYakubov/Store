@@ -1,4 +1,4 @@
-package com.example.demo.storage;
+package com.example.demo.models;
 
 import com.example.demo.models.Role;
 import com.example.demo.models.User;

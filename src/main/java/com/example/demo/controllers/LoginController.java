@@ -1,10 +1,8 @@
 package com.example.demo.controllers;
 
 import com.example.demo.repositories.ItemRepository;
-import com.example.demo.storage.ImageUtil;
 import com.example.demo.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +21,6 @@ public class LoginController {
         if (user != null) {
             model.addAttribute("user", user.getUsername());
             model.addAttribute("items", itemRepository.findAll());
-            //model.addAttribute("imgUtil", new ImageUtil());
             return "index";
         }
         model.addAttribute("user", "anonymous");

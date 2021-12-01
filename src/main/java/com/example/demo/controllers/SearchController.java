@@ -1,6 +1,5 @@
 package com.example.demo.controllers;
 
-import com.example.demo.storage.ImageUtil;
 import com.example.demo.models.Item;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +20,7 @@ public class SearchController {
             }
         }*/
         model.addAttribute("items", items);
-        model.addAttribute("imgUtil", new ImageUtil());
+        //model.addAttribute("imgUtil", new ImageUtil());
         return "index";
     }
 }

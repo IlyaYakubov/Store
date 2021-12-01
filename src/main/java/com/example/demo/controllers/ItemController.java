@@ -7,21 +7,21 @@ import com.example.demo.repositories.BrandRepository;
 import com.example.demo.repositories.CategoryRepository;
 import com.example.demo.repositories.ColorRepository;
 import com.example.demo.repositories.ItemRepository;
-import com.example.demo.storage.ImageUtil;
+import com.example.demo.storage.StorageService;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigInteger;
 
 @Controller
 public class ItemController {
+
+    private final StorageService storageService;
 
     @Autowired
     private ItemRepository itemRepository;
@@ -35,6 +35,11 @@ public class ItemController {
     @Autowired
     private ColorRepository colorRepository;
 
+    @Autowired
+    public ItemController(StorageService storageService) {
+        this.storageService = storageService;
+    }
+
     @GetMapping("/item/add")
     public String getItem() {
         return "admin/item";
@@ -46,19 +51,6 @@ public class ItemController {
         return "admin/items";
     }
 
-    /*InputStream inputStream = image.getInputStream();
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        int read;
-        final byte[] bytes = new byte[1024];
-        while ((read = inputStream.read(bytes)) != -1) {
-            outputStream.write(bytes, 0, read);
-        }
-        Image newImage = new Image();
-        newImage.setName(image.getName());
-        newImage.setContents(outputStream.toByteArray());
-        ImageDAO.INSTANCE.add(newImage);
-        item.setImage(newImage);*/
-    
     @SneakyThrows
     @PostMapping("/item/create")
     public String createItem(@RequestParam("categoryName") String categoryName,
@@ -67,17 +59,25 @@ public class ItemController {
                              @RequestParam("size") String size,
                              @RequestParam("color") String colorName,
                              @RequestParam("price") String price,
-                             @RequestParam("image") MultipartFile image) {
+                             @RequestParam("filename") MultipartFile filename) {
         if (itemRepository.findItemByName(name) != null) {
             return "redirect:/items";
         }
 
         Item item = new Item();
-        fillItem(categoryName, name, brandName, size, colorName, price, item);
+        fillItem(categoryName, name, brandName, size, colorName, price, filename, item);
 
         itemRepository.save(item);
 
         return "redirect:/items";
+    }
+
+    @GetMapping("/item/{id}")
+    public String editItem(@PathVariable("id") Long id, Model model) {
+        Item item = itemRepository.findById(id).get();
+        model.addAttribute("item", item);
+        model.addAttribute("filename", item.getFilename());
+        return "admin/edit-item";
     }
 
     @PostMapping("/item/{id}")
@@ -87,9 +87,10 @@ public class ItemController {
                              @RequestParam("brand") String brandName,
                              @RequestParam("size") String size,
                              @RequestParam("color") String colorName,
-                             @RequestParam("price") String price) {
+                             @RequestParam("price") String price,
+                             @RequestParam("filename") MultipartFile filename) {
         Item item = itemRepository.findById(id).get();
-        fillItem(categoryName, name, brandName, size, colorName, price, item);
+        fillItem(categoryName, name, brandName, size, colorName, price, filename, item);
 
         itemRepository.save(item);
 
@@ -102,6 +103,7 @@ public class ItemController {
                           @RequestParam("size") String size,
                           @RequestParam("color") String colorName,
                           @RequestParam("price") String price,
+                          @RequestParam("filename") MultipartFile filename,
                           Item item) {
         item.setCategory(categoryRepository.findCategoryByName(categoryName));
         item.setName(name);
@@ -117,6 +119,8 @@ public class ItemController {
             color = createColor(colorName);
         }
         item.setColor(color);
+        storageService.store(filename);
+        item.setFilename(filename.getOriginalFilename());
     }
 
     private Brand createBrand(String brandName) {
@@ -133,17 +137,11 @@ public class ItemController {
         return color;
     }
 
-    @GetMapping("/item/{id}")
-    public String editItem(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("item", itemRepository.findById(id).get());
-        model.addAttribute("imgUtil", new ImageUtil());
-        return "admin/edit-item";
-    }
-
     @GetMapping("/catalog/items/{id}")
     public String getItem(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("item", itemRepository.findById(id).get());
-        model.addAttribute("imgUtil", new ImageUtil());
+        Item item = itemRepository.findById(id).get();
+        model.addAttribute("item", item);
+        model.addAttribute("filename", item.getFilename());
         return "user/item";
     }
 
@@ -151,5 +149,14 @@ public class ItemController {
     public String deleteItem(@PathVariable("id") Long id) {
         itemRepository.delete(itemRepository.findById(id).get());
         return "redirect:/items";
+    }
+
+    @ExceptionHandler(StorageFileNotFoundException.class)
+    public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
+        return ResponseEntity.notFound().build();
+    }
+
+    static class StorageFileNotFoundException extends Exception {
+
     }
 }

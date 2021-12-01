@@ -16,12 +16,6 @@
     <div class="container-fluid">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-1 mb-lg-0">
-                <!--<li class="nav-item">
-                    <a class="nav-link" th:href="@{/foruser}">foruser</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/foradmin}">foradmin</a>
-                </li>-->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">
@@ -63,7 +57,7 @@
 <div class="container">
     <div th:each="item : ${items}">
         <a th:href="'/catalog/items/' + ${item.id}">
-            <!--<img class='img-thumbnail' th:src="'data:image/jpeg;base64,' + ${imgUtil.getImgData(item.image.contents)}"/>-->
+            <img class='img-thumbnail' th:src="@{'/images/' + ${item.filename}}" alt="Картинка"/>
             <p th:text="${item.name}"></p>
             <p th:text="${item.price}"></p>
         </a>

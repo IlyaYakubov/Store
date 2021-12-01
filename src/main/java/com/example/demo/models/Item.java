@@ -16,15 +16,13 @@ public class Item {
     private String name;
     private Long size;
     private BigInteger price;
+    private String filename;
 
     @ManyToOne
     private Brand brand;
 
     @ManyToOne
     private Color color;
-
-    @OneToOne
-    private Image image;
 
     @ManyToOne
     private Category category;
