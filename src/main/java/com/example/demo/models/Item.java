@@ -3,6 +3,7 @@ package com.example.demo.models;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.math.BigInteger;
 
 @Data
 @Entity
@@ -13,8 +14,8 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
-    private String size;
-    private String price;
+    private Long size;
+    private BigInteger price;
 
     @ManyToOne
     private Brand brand;

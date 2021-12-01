@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigInteger;
+
 @Controller
 public class ItemController {
 
@@ -103,8 +105,8 @@ public class ItemController {
                           Item item) {
         item.setCategory(categoryRepository.findCategoryByName(categoryName));
         item.setName(name);
-        item.setSize(size);
-        item.setPrice(price);
+        item.setSize(Long.parseLong(size));
+        item.setPrice(BigInteger.valueOf(Long.parseLong(price)));
         Brand brand = brandRepository.findBrandByName(brandName);
         if (brand == null) {
             brand = createBrand(brandName);
