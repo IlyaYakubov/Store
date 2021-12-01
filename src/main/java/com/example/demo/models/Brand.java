@@ -13,4 +13,9 @@ public class Brand {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

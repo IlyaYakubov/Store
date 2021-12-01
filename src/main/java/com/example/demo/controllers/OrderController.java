@@ -2,6 +2,7 @@ package com.example.demo.controllers;
 
 import com.example.demo.models.Cart;
 import com.example.demo.models.Item;
+import com.example.demo.models.Order;
 import com.example.demo.repositories.ItemRepository;
 import com.example.demo.repositories.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,8 @@ public class OrderController {
 
     @GetMapping("/order/create")
     public String buyItems() {
+        Order order = new Order();
+        //order.setUser();
         cartRepository.deleteAll();
         return "redirect:/";
     }

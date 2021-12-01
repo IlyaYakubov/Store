@@ -1,7 +1,11 @@
 package com.example.demo.controllers;
 
+import com.example.demo.models.Brand;
+import com.example.demo.models.Color;
 import com.example.demo.models.Item;
+import com.example.demo.repositories.BrandRepository;
 import com.example.demo.repositories.CategoryRepository;
+import com.example.demo.repositories.ColorRepository;
 import com.example.demo.repositories.ItemRepository;
 import com.example.demo.storage.ImageUtil;
 import lombok.SneakyThrows;
@@ -23,6 +27,12 @@ public class ItemController {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @Autowired
+    private BrandRepository brandRepository;
+
+    @Autowired
+    private ColorRepository colorRepository;
+
     @GetMapping("/item/add")
     public String getItem() {
         return "admin/item";
@@ -34,22 +44,7 @@ public class ItemController {
         return "admin/items";
     }
 
-    @SneakyThrows
-    @PostMapping("/item/create")
-    public String createItem(@RequestParam("categoryName") String categoryName,
-                             @RequestParam("name") String name,
-                             @RequestParam("brand") String brand,
-                             @RequestParam("size") String size,
-                             @RequestParam("color") String color,
-                             @RequestParam("price") String price,
-                             @RequestParam("image") MultipartFile image) {
-        Item item = new Item();
-        item.setCategory(categoryRepository.findCategoryByName(categoryName));
-        item.setName(name);
-        item.setSize(size);
-        item.setPrice(price);
-
-        /*InputStream inputStream = image.getInputStream();
+    /*InputStream inputStream = image.getInputStream();
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         int read;
         final byte[] bytes = new byte[1024];
@@ -61,10 +56,79 @@ public class ItemController {
         newImage.setContents(outputStream.toByteArray());
         ImageDAO.INSTANCE.add(newImage);
         item.setImage(newImage);*/
+    
+    @SneakyThrows
+    @PostMapping("/item/create")
+    public String createItem(@RequestParam("categoryName") String categoryName,
+                             @RequestParam("name") String name,
+                             @RequestParam("brand") String brandName,
+                             @RequestParam("size") String size,
+                             @RequestParam("color") String colorName,
+                             @RequestParam("price") String price,
+                             @RequestParam("image") MultipartFile image) {
+        if (itemRepository.findItemByName(name) != null) {
+            return "redirect:/items";
+        }
+
+        Item item = new Item();
+        fillItem(categoryName, name, brandName, size, colorName, price, item);
 
         itemRepository.save(item);
 
         return "redirect:/items";
+    }
+
+    @PostMapping("/item/{id}")
+    public String updateItem(@PathVariable("id") Long id,
+                             @RequestParam("categoryName") String categoryName,
+                             @RequestParam("name") String name,
+                             @RequestParam("brand") String brandName,
+                             @RequestParam("size") String size,
+                             @RequestParam("color") String colorName,
+                             @RequestParam("price") String price) {
+        Item item = itemRepository.findById(id).get();
+        fillItem(categoryName, name, brandName, size, colorName, price, item);
+
+        itemRepository.save(item);
+
+        return "redirect:/items";
+    }
+
+    private void fillItem(@RequestParam("categoryName") String categoryName,
+                          @RequestParam("name") String name,
+                          @RequestParam("brand") String brandName,
+                          @RequestParam("size") String size,
+                          @RequestParam("color") String colorName,
+                          @RequestParam("price") String price,
+                          Item item) {
+        item.setCategory(categoryRepository.findCategoryByName(categoryName));
+        item.setName(name);
+        item.setSize(size);
+        item.setPrice(price);
+        Brand brand = brandRepository.findBrandByName(brandName);
+        if (brand == null) {
+            brand = createBrand(brandName);
+        }
+        item.setBrand(brand);
+        Color color = colorRepository.findColorByName(colorName);
+        if (color == null) {
+            color = createColor(colorName);
+        }
+        item.setColor(color);
+    }
+
+    private Brand createBrand(String brandName) {
+        Brand brand = new Brand();
+        brand.setName(brandName);
+        brandRepository.save(brand);
+        return brand;
+    }
+
+    private Color createColor(String colorName) {
+        Color color = new Color();
+        color.setName(colorName);
+        colorRepository.save(color);
+        return color;
     }
 
     @GetMapping("/item/{id}")
@@ -79,24 +143,6 @@ public class ItemController {
         model.addAttribute("item", itemRepository.findById(id).get());
         model.addAttribute("imgUtil", new ImageUtil());
         return "user/item";
-    }
-
-    @PostMapping("/item/{id}")
-    public String updateItem(@PathVariable("id") Long id,
-                             @RequestParam("categoryName") String categoryName,
-                             @RequestParam("name") String name,
-                             @RequestParam("brand") String brand,
-                             @RequestParam("size") String size,
-                             @RequestParam("color") String color,
-                             @RequestParam("price") String price) {
-        Item item = itemRepository.findById(id).get();
-        item.setCategory(categoryRepository.findCategoryByName(categoryName));
-        item.setName(name);
-        item.setSize(size);
-        item.setPrice(price);
-        itemRepository.save(item);
-
-        return "redirect:/items";
     }
 
     @GetMapping("/item/delete/{id}")
