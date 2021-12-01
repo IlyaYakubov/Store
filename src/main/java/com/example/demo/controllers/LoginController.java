@@ -34,16 +34,4 @@ public class LoginController {
     public String login() {
         return "login";
     }
-
-    @PreAuthorize(value = "hasAuthority('USER')")
-    @GetMapping("/foruser")
-    public String forUser() {
-        return "foruser";
-    }
-
-    @PreAuthorize(value = "hasAuthority('ADMIN')")
-    @GetMapping("/foradmin")
-    public String forAdmin() {
-        return "foradmin";
-    }
 }

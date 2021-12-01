@@ -34,10 +34,6 @@
                 <li>
                     <a class="nav-link" th:href="'/order'">Корзина</a>
                 </li>
-                <!-- todo потом убрать -->
-                <li>
-                    <a class="nav-link" th:href="'/admin'">Административная часть</a>
-                </li>
             </ul>
             <form th:action="'/search'" class="d-flex">
                 <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Search" name="search">
@@ -45,7 +41,10 @@
             </form>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item" th:if="${user == 'anonymous'}">
-                    <a class="nav-link" th:text="Вход" th:href="@{/login}"></a>
+                    <a class="nav-link" th:text="Пользователь" th:href="@{/login}"></a>
+                </li>
+                <li class="nav-item" th:if="${user == 'anonymous'}">
+                    <a class="nav-link" th:text="Администратор" th:href="'/admin'"></a>
                 </li>
                 <li class="nav-item" th:if="${user == 'anonymous'}">
                     <a class="nav-link" th:href="@{/registration}">Регистрация</a>
