@@ -22,17 +22,29 @@ public class UserController {
         return "admin/users";
     }
 
-    @GetMapping("/user/add")
-    public String getUser(@RequestParam("username") String username,
-                          @RequestParam("surname") String surname,
-                          @RequestParam("middleName") String middleName,
-                          @RequestParam("country") String country,
-                          @RequestParam("city") String city,
-                          @RequestParam("phone") String phone,
-                          @RequestParam("email") String email) {
-        User user = new User();
-        fillUser(username, surname, middleName, country, city, phone, email, user);
+    @GetMapping("/cabinet/{username}")
+    public String getCabinet(@PathVariable("username") String username, Model model) {
+        model.addAttribute("user", userRepository.findUserByUsername(username));
+        return "user/cabinet";
+    }
 
+    @GetMapping("/user/{id}")
+    public String getUser(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("user", userRepository.findById(id).get());
+        return "admin/user";
+    }
+
+    @PostMapping("/update/user/{id}")
+    public String updateUser(@PathVariable("id") Long id,
+                           @RequestParam("username") String username,
+                           @RequestParam("surname") String surname,
+                           @RequestParam("middleName") String middleName,
+                           @RequestParam("country") String country,
+                           @RequestParam("city") String city,
+                           @RequestParam("phone") String phone,
+                           @RequestParam("email") String email) {
+        User user = userRepository.findById(id).get();
+        fillUser(username, surname, middleName, country, city, phone, email, user);
         userRepository.save(user);
 
         return "redirect:/";
@@ -53,59 +65,6 @@ public class UserController {
         user.setCity(city);
         user.setPhone(phone);
         user.setEmail(email);
-    }
-
-    @GetMapping("/cabinet/{id}")
-    public String getCabinet(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("user", userRepository.findById(id).get());
-        return "user/cabinet";
-    }
-
-    @GetMapping("/user/{id}")
-    public String editUser(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("user", userRepository.findById(id).get());
-        return "admin/user";
-    }
-
-    @PostMapping("/update/user/{id}")
-    public String editUser(@PathVariable("id") Long id,
-                           @RequestParam("username") String username,
-                           @RequestParam("surname") String surname,
-                           @RequestParam("middleName") String middleName,
-                           @RequestParam("country") String country,
-                           @RequestParam("city") String city,
-                           @RequestParam("phone") String phone,
-                           @RequestParam("email") String email) {
-        updateUser(id, username, surname, middleName, country, city, phone, email);
-
-        return "redirect:/";
-    }
-
-    @PostMapping("/cabinet/{id}")
-    public String editUserInCabinet(@PathVariable("id") Long id,
-                                    @RequestParam("username") String username,
-                                    @RequestParam("surname") String surname,
-                                    @RequestParam("middleName") String middleName,
-                                    @RequestParam("country") String country,
-                                    @RequestParam("city") String city,
-                                    @RequestParam("phone") String phone,
-                                    @RequestParam("email") String email) {
-        updateUser(id, username, surname, middleName, country, city, phone, email);
-
-        return "user/cabinet";
-    }
-
-    private void updateUser(@PathVariable("id") Long id,
-                            @RequestParam("username") String username,
-                            @RequestParam("surname") String surname,
-                            @RequestParam("middleName") String middleName,
-                            @RequestParam("country") String country,
-                            @RequestParam("city") String city,
-                            @RequestParam("phone") String phone,
-                            @RequestParam("email") String email) {
-        User user = userRepository.findById(id).get();
-        fillUser(username, surname, middleName, country, city, phone, email, user);
-        userRepository.save(user);
     }
 
     @GetMapping("/user/delete/{id}")

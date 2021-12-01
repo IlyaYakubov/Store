@@ -23,7 +23,7 @@ public class LoginController {
         if (user != null) {
             model.addAttribute("user", user.getUsername());
             model.addAttribute("items", itemRepository.findAll());
-            model.addAttribute("imgUtil", new ImageUtil());
+            //model.addAttribute("imgUtil", new ImageUtil());
             return "index";
         }
         model.addAttribute("user", "anonymous");
