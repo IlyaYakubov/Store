@@ -7,8 +7,8 @@ import java.math.BigInteger;
 
 @Data
 @Entity
-@Table(name = "cart")
-public class Cart {
+@Table(name = "order_elements")
+public class OrderElement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,7 +20,4 @@ public class Cart {
     @ManyToOne
     @JoinColumn(name = "item_id")
     private Item item;
-
-    @OneToOne
-    private Order order;
 }

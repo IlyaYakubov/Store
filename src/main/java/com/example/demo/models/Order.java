@@ -3,6 +3,7 @@ package com.example.demo.models;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -15,4 +16,7 @@ public class Order {
 
     @ManyToOne
     private User user;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<OrderElement> orderElements;
 }

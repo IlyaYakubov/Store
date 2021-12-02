@@ -20,10 +20,10 @@
           </tr>
         </thead>
         <tbody>
-        <tr th:each="orderItem : ${cart}">
-          <td th:text="${orderItem.item.name}"></td>
+        <tr th:each="cartElement : ${cart}">
+          <td th:text="${cartElement.item.name}"></td>
           <td>1</td>
-          <td th:text="${orderItem.item.price}"></td>
+          <td th:text="${cartElement.item.price}"></td>
         </tr>
         </tbody>
         <tfoot>
@@ -31,7 +31,7 @@
             <th scope="col"></th>
             <td></td>
             <td></td>
-            <td>Итого: <div th:text="${sum}" /> P</td>
+            <td th:text="${sum}"></td>
           </tr>
         </tfoot>
       </table>
