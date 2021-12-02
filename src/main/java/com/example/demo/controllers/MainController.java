@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import com.example.demo.repositories.CategoryRepository;
 import com.example.demo.repositories.ItemRepository;
 import com.example.demo.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +19,13 @@ public class MainController {
     @Autowired
     private ItemRepository itemRepository;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     @GetMapping
     public String index(@AuthenticationPrincipal User user, Model model) {
         model.addAttribute("items", itemRepository.findAll());
+        model.addAttribute("categories", categoryRepository.findAll());
         if (user != null) {
             model.addAttribute("user", user.getUsername());
             return "index";

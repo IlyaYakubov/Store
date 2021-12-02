@@ -22,7 +22,9 @@
                         Категории
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" th:href="'/'">Вся одежда</a></li>
+                        <li th:each="category : ${categories}">
+                            <a class="dropdown-item" th:href="'/search/' + ${category.id}" th:text="${category.name}"></a>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item" th:if="${user != 'anonymous'}">
