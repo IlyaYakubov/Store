@@ -7,20 +7,21 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("/")
-public class LoginController {
+public class MainController {
 
     @Autowired
     private ItemRepository itemRepository;
 
-    @GetMapping
+    @GetMapping("/")
     public String index(@AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("items", itemRepository.findAll());
         if (user != null) {
             model.addAttribute("user", user.getUsername());
-            model.addAttribute("items", itemRepository.findAll());
             return "index";
         }
         model.addAttribute("user", "anonymous");
