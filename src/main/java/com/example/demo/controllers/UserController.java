@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 import com.example.demo.models.User;
+import com.example.demo.repositories.OrderRepository;
 import com.example.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,6 +18,9 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private OrderRepository orderRepository;
+
     @PreAuthorize(value = "hasAuthority('ADMIN')")
     @GetMapping("/admin")
     public String getUsers(Model model) {
@@ -27,12 +31,14 @@ public class UserController {
     @GetMapping("/cabinet/{username}")
     public String getCabinet(@PathVariable("username") String username, Model model) {
         model.addAttribute("user", userRepository.findUserByUsername(username));
+        model.addAttribute("orders", orderRepository.findAll());
         return "user/cabinet";
     }
 
     @GetMapping("/user/{id}")
     public String getUser(@PathVariable("id") Long id, Model model) {
         model.addAttribute("user", userRepository.findById(id).get());
+        model.addAttribute("orders", orderRepository.findAll());
         return "admin/user";
     }
 
