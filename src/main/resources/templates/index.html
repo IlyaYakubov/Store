@@ -25,7 +25,7 @@
                         <li><a class="dropdown-item" th:href="'/'">Вся одежда</a></li>
                     </ul>
                 </li>
-                <li>
+                <li class="nav-item" th:if="${user != 'anonymous'}">
                     <a class="nav-link" th:href="'/order'">Корзина</a>
                 </li>
             </ul>

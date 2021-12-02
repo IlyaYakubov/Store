@@ -12,12 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
+@RequestMapping("/")
 public class MainController {
 
     @Autowired
     private ItemRepository itemRepository;
 
-    @GetMapping("/")
+    @GetMapping
     public String index(@AuthenticationPrincipal User user, Model model) {
         model.addAttribute("items", itemRepository.findAll());
         if (user != null) {
