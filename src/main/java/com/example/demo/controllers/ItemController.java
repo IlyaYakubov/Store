@@ -137,14 +137,6 @@ public class ItemController {
         return color;
     }
 
-    @GetMapping("/catalog/items/{id}")
-    public String getItem(@PathVariable("id") Long id, Model model) {
-        Item item = itemRepository.findById(id).get();
-        model.addAttribute("item", item);
-        model.addAttribute("filename", item.getFilename());
-        return "user/item";
-    }
-
     @GetMapping("/item/delete/{id}")
     public String deleteItem(@PathVariable("id") Long id) {
         itemRepository.delete(itemRepository.findById(id).get());

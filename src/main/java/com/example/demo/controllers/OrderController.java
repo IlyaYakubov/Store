@@ -63,4 +63,19 @@ public class OrderController {
         orderElementRepository.deleteAll();
         return "redirect:/";
     }
+
+    @PostMapping("/buy/{id}")
+    public String buyItems(@PathVariable Long id) {
+        Item item = itemRepository.findById(id).get();
+        OrderElement orderElement = new OrderElement();
+        orderElement.setItem(item);
+        orderElement.setSum(item.getPrice());
+        orderElementRepository.save(orderElement);
+
+        Order order = new Order();
+        order.setUser(null);
+        order.setOrderElements((List<OrderElement>) orderElementRepository.findAll());
+        orderRepository.save(order);
+        return "redirect:/";
+    }
 }
