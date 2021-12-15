@@ -1,4 +1,9 @@
 <!DOCTYPE html>
+<!--<html lang="ru" xmlns:th="https://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">-->
 <html lang="ru" xmlns:th="https://www.thymeleaf.org">
 <head>
     <title>Главная</title>
@@ -37,10 +42,7 @@
             </form>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item" th:if="${user == 'anonymous'}">
-                    <a class="nav-link" th:text="Пользователь" th:href="@{/login}"></a>
-                </li>
-                <li class="nav-item" th:if="${user == 'anonymous'}">
-                    <a class="nav-link" th:text="Администратор" th:href="'/admin'"></a>
+                    <a class="nav-link" th:text="Вход" th:href="@{/login}"></a>
                 </li>
                 <li class="nav-item" th:if="${user == 'anonymous'}">
                     <a class="nav-link" th:href="@{/registration}">Регистрация</a>
