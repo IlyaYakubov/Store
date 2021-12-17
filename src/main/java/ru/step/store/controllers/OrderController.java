@@ -77,6 +77,9 @@ public class OrderController {
         order.setUser(null);
         order.setOrderElements(orderElementRepository.findOrderElementsByUserAndArranged(null, false));
         orderRepository.save(order);
+
+        orderElement.setArranged(true);
+        orderElementRepository.save(orderElement);
         return "redirect:/";
     }
 }
