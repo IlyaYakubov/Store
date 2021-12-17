@@ -15,9 +15,15 @@ public class OrderElement {
     private Long id;
 
     private Long quantity;
+
     private BigInteger sum;
 
     @ManyToOne
     @JoinColumn(name = "item_id")
     private Item item;
+
+    @ManyToOne
+    private User user;
+
+    private boolean arranged;
 }

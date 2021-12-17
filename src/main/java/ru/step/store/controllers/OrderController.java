@@ -1,14 +1,7 @@
 package ru.step.store.controllers;
 
-import ru.step.store.models.Item;
-import ru.step.store.models.Order;
-import ru.step.store.models.OrderElement;
-import ru.step.store.models.User;
-import ru.step.store.repositories.ItemRepository;
-import ru.step.store.repositories.OrderElementRepository;
-import ru.step.store.repositories.OrderRepository;
-import ru.step.store.repositories.UserRepository;
-import ru.step.store.services.OrderElementService;
+import ru.step.store.models.*;
+import ru.step.store.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -17,16 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.math.BigInteger;
 import java.util.List;
 
 @Controller
 public class OrderController {
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private OrderElementRepository orderElementRepository;
 
     @Autowired
     private ItemRepository itemRepository;
@@ -35,21 +23,27 @@ public class OrderController {
     private OrderRepository orderRepository;
 
     @Autowired
-    private OrderElementService orderElementService;
+    private OrderElementRepository orderElementRepository;
 
     @GetMapping("/order")
-    public String getOrder(Model model) {
-        model.addAttribute("cart", orderElementRepository.findAll());
-        model.addAttribute("sum", orderElementService.getSum());
+    public String getOrder(Model model, @AuthenticationPrincipal User user) {
+        model.addAttribute("cart", orderElementRepository.findOrderElementsByUserAndArranged(user, false));
+
+        BigInteger sum = new BigInteger("0");
+        for (OrderElement orderElement : orderElementRepository.findOrderElementsByUserAndArranged(user, false)) {
+            sum = sum.add(orderElement.getSum());
+        }
+        model.addAttribute("sum", sum);
         return "/user/order";
     }
 
     @PostMapping("/order/{id}")
-    public String addInOrder(@PathVariable Long id) {
+    public String addInOrder(@PathVariable Long id, @AuthenticationPrincipal User user) {
         Item item = itemRepository.findById(id).get();
         OrderElement orderElement = new OrderElement();
         orderElement.setItem(item);
         orderElement.setSum(item.getPrice());
+        orderElement.setUser(user);
         orderElementRepository.save(orderElement);
         return "redirect:/";
     }
@@ -58,24 +52,31 @@ public class OrderController {
     public String buyItems(@AuthenticationPrincipal User user) {
         Order order = new Order();
         order.setUser(user);
-        order.setOrderElements((List<OrderElement>) orderElementRepository.findAll());
+        List<OrderElement> orderElements = orderElementRepository.findOrderElementsByUserAndArranged(user, false);
+        order.setOrderElements(orderElements);
         orderRepository.save(order);
-        orderElementRepository.deleteAll();
+
+        for (OrderElement orderElement : orderElements) {
+            orderElement.setArranged(true);
+            orderElementRepository.save(orderElement);
+        }
+
         return "redirect:/";
     }
 
     @PostMapping("/buy/{id}")
     public String buyItems(@PathVariable Long id) {
-        /*Item item = itemRepository.findById(id).get();
+        Item item = itemRepository.findById(id).get();
         OrderElement orderElement = new OrderElement();
         orderElement.setItem(item);
         orderElement.setSum(item.getPrice());
+        orderElement.setUser(null);
         orderElementRepository.save(orderElement);
 
         Order order = new Order();
         order.setUser(null);
-        order.setOrderElements((List<OrderElement>) orderElementRepository.findAll());
-        orderRepository.save(order);*/
+        order.setOrderElements(orderElementRepository.findOrderElementsByUserAndArranged(null, false));
+        orderRepository.save(order);
         return "redirect:/";
     }
 }
