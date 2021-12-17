@@ -20,7 +20,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-1 mb-lg-0">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">
@@ -28,7 +28,8 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li th:each="category : ${categories}">
-                            <a class="dropdown-item" th:href="'/search/' + ${category.id}" th:text="${category.name}"></a>
+                            <a class="dropdown-item" th:href="'/search/' + ${category.id}"
+                               th:text="${category.name}"></a>
                         </li>
                     </ul>
                 </li>
@@ -39,21 +40,21 @@
             <form th:action="'/search'" class="d-flex">
                 <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Search" name="search">
                 <button class="btn btn-outline-success" type="submit">Найти</button>
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item" th:if="${user == 'anonymous'}">
+                        <a class="nav-link" th:text="Вход" th:href="@{/login}"></a>
+                    </li>
+                    <li class="nav-item" th:if="${user == 'anonymous'}">
+                        <a class="nav-link" th:href="@{/registration}">Регистрация</a>
+                    </li>
+                    <li class="nav-item" th:if="${user != 'anonymous'}">
+                        <a class="nav-link" th:text="${user}" th:href="'/cabinet/' + ${user}"></a>
+                    </li>
+                </ul>
             </form>
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item" th:if="${user == 'anonymous'}">
-                    <a class="nav-link" th:text="Вход" th:href="@{/login}"></a>
-                </li>
-                <li class="nav-item" th:if="${user == 'anonymous'}">
-                    <a class="nav-link" th:href="@{/registration}">Регистрация</a>
-                </li>
-                <li class="nav-item" th:if="${user != 'anonymous'}">
-                    <a class="nav-link" th:text="${user}" th:href="'/cabinet/' + ${user}"></a>
-                </li>
-                <form th:if="${user != 'anonymous'}" th:action="@{/logout}" method="post">
-                    <button class="btn btn-outline-success" type="submit">Выйти</button>
-                </form>
-            </ul>
+            <form th:if="${user != 'anonymous'}" th:action="@{/logout}" method="post" class="d-flex">
+                <button class="btn btn-outline-success" type="submit">Выйти</button>
+            </form>
         </div>
     </div>
 </nav>
