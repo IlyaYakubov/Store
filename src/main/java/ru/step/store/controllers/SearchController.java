@@ -1,5 +1,7 @@
 package ru.step.store.controllers;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import ru.step.store.models.User;
 import ru.step.store.repositories.CategoryRepository;
 import ru.step.store.repositories.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +21,25 @@ public class SearchController {
     private CategoryRepository categoryRepository;
 
     @GetMapping("/search")
-    public String findItems(@RequestParam("search") String search, Model model) {
+    public String findItems(@RequestParam("search") String search, Model model, @AuthenticationPrincipal User user) {
         model.addAttribute("items", itemRepository.findItemByName(search));
+        model.addAttribute("user", "anonymous");
+
+        if (user != null) {
+            model.addAttribute("user", user.getUsername());
+        }
         return "index";
     }
 
     @GetMapping("/search/{categoryId}")
-    public String filter(@PathVariable Long categoryId, Model model) {
+    public String filter(@PathVariable Long categoryId, Model model, @AuthenticationPrincipal User user) {
         model.addAttribute("items", itemRepository.findItemByCategory_Id(categoryId));
         model.addAttribute("categories", categoryRepository.findAll());
+
+        model.addAttribute("user", "anonymous");
+        if (user != null) {
+            model.addAttribute("user", user.getUsername());
+        }
         return "index";
     }
 }
