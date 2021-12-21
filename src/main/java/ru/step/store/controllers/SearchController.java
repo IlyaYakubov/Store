@@ -22,7 +22,10 @@ public class SearchController {
 
     @GetMapping("/search")
     public String findItems(@RequestParam("search") String search, Model model, @AuthenticationPrincipal User user) {
-        model.addAttribute("items", itemRepository.findItemByName(search));
+        model.addAttribute("items", itemRepository.findAll());
+        if (!search.isEmpty()) {
+            model.addAttribute("items", itemRepository.findItemByName(search));
+        }
         model.addAttribute("user", "anonymous");
 
         if (user != null) {

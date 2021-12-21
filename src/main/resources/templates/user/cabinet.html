@@ -18,7 +18,7 @@
             <div class="input-group mb-3">
                 <span class="input-group-text" id="inputGroup-sizing-default1">Имя</span>
                 <input type="text" class="form-control" aria-label="name" aria-describedby="inputGroup-sizing-default"
-                       name="username" th:value="${user.username}">
+                       name="username" th:value="${user.username}" required>
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text" id="inputGroup-sizing-default2">Фамилия</span>
@@ -46,7 +46,7 @@
             <div class="input-group mb-3">
                 <span class="input-group-text" id="inputGroup-sizing-default6">Телефон</span>
                 <input type="text" class="form-control" aria-label="phone" aria-describedby="inputGroup-sizing-default"
-                       name="phone" th:value="${user.phone}">
+                       name="phone" th:value="${user.phone}" required>
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text" id="inputGroup-sizing-default7">Email</span>

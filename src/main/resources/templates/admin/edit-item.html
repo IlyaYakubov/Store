@@ -43,27 +43,27 @@
         <div class="input-group mb-3">
             <span class="input-group-text" id="inputGroup-sizing-default2">Наименование</span>
             <input type="text" class="form-control" aria-label="name" name="name" th:value="${item.name}"
-                   aria-describedby="inputGroup-sizing-default">
+                   aria-describedby="inputGroup-sizing-default" required>
         </div>
         <div class="input-group mb-3">
             <span class="input-group-text" id="inputGroup-sizing-default3">Бренд</span>
             <input type="text" class="form-control" aria-label="brand" name="brand" th:value="${item.brand}"
-                   aria-describedby="inputGroup-sizing-default">
+                   aria-describedby="inputGroup-sizing-default" required>
         </div>
         <div class="input-group mb-3">
             <span class="input-group-text" id="inputGroup-sizing-default4">Размер</span>
             <input type="text" class="form-control" aria-label="size" name="size" th:value="${item.size}"
-                   aria-describedby="inputGroup-sizing-default">
+                   aria-describedby="inputGroup-sizing-default" required>
         </div>
         <div class="input-group mb-3">
             <span class="input-group-text" id="inputGroup-sizing-default5">Цвет</span>
             <input type="text" class="form-control" aria-label="color" name="color" th:value="${item.color}"
-                   aria-describedby="inputGroup-sizing-default">
+                   aria-describedby="inputGroup-sizing-default" required>
         </div>
         <div class="input-group mb-3">
             <span class="input-group-text" id="inputGroup-sizing-default6">Цена</span>
             <input type="text" class="form-control" aria-label="price" name="price" th:value="${item.price}"
-                   aria-describedby="inputGroup-sizing-default">
+                   aria-describedby="inputGroup-sizing-default" required>
         </div>
         <br>
         <table class="table">
@@ -78,7 +78,7 @@
             <div class="form-group">
                 <div class="col-md-8">
                     <table>
-                        <tr><td><input type="file" name="filename" th:value="${filename}" /></td></tr>
+                        <tr><td><input type="file" name="filename" th:value="${filename}" required/></td></tr>
                     </table>
                 </div>
             </div>
