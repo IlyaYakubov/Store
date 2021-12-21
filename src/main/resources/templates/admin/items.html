@@ -23,6 +23,9 @@
                     <a class="nav-link" th:href="'/items'">Товары</a>
                 </li>
             </ul>
+            <form th:action="@{/logout}" method="post">
+                <button class="btn btn-outline-success" type="submit">Выйти</button>
+            </form>
         </div>
     </div>
 </nav>

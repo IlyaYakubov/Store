@@ -19,4 +19,13 @@ public class Order {
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<OrderElement> orderElements;
+
+    @Override
+    public String toString() {
+        StringBuilder items = new StringBuilder();
+        for (OrderElement orderElement : orderElements) {
+            items.append(orderElement.getItem()).append(", ");
+        }
+        return "Заказ номер: " + id + ", Товары: " + items;
+    }
 }

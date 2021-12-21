@@ -26,4 +26,13 @@ public class Item {
 
     @ManyToOne
     private Category category;
+
+    @Override
+    public String toString() {
+        return "Наименование: " + name +
+                ", размер: " + size +
+                ", цена: " + price +
+                ", брэнд: " + brand +
+                ", цвет: " + color;
+    }
 }

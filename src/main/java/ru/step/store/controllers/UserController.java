@@ -1,5 +1,6 @@
 package ru.step.store.controllers;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import ru.step.store.models.User;
 import ru.step.store.repositories.OrderRepository;
 import ru.step.store.repositories.UserRepository;
@@ -29,16 +30,16 @@ public class UserController {
     }
 
     @GetMapping("/cabinet/{username}")
-    public String getCabinet(@PathVariable("username") String username, Model model) {
+    public String getCabinet(@PathVariable("username") String username, Model model, @AuthenticationPrincipal User user) {
         model.addAttribute("user", userRepository.findUserByUsername(username));
-        model.addAttribute("orders", orderRepository.findAll());
+        model.addAttribute("orders", orderRepository.findOrdersByUser(user));
         return "user/cabinet";
     }
 
     @GetMapping("/user/{id}")
     public String getUser(@PathVariable("id") Long id, Model model) {
         model.addAttribute("user", userRepository.findById(id).get());
-        model.addAttribute("orders", orderRepository.findAll());
+        model.addAttribute("orders", orderRepository.findOrdersByUser(userRepository.findById(id).get()));
         return "admin/user";
     }
 
