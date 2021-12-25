@@ -1,9 +1,4 @@
 <!DOCTYPE html>
-<!--<html lang="ru" xmlns:th="https://www.thymeleaf.org"
-      xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">-->
 <html lang="ru" xmlns:th="https://www.thymeleaf.org">
 <head>
     <title>Главная</title>
@@ -17,45 +12,72 @@
     </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="container-fluid">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button"
+                        id="dropdownMenuButton"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Каталог
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item"
+                       th:each="category : ${categories}"
+                       th:if="${category.category} == null"
+                       th:href="'/search/' + ${category.id}"
+                       th:text="${category.name}"></a>
+
+
+
+                    <div class="dropdown dropend">
+                        <a class="dropdown-item dropdown-toggle" href="#" id="dropdown-layouts5"
+                           data-bs-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false">Категория 1</a>
+
+                        <div class="dropdown-menu" aria-labelledby="dropdown-layouts5">
+                            <a class="dropdown-item" href="#">Категория 2</a>
+
+                            <div class="dropdown dropend">
+                                <a class="dropdown-item dropdown-toggle" href="#" id="dropdown-layouts6"
+                                   data-bs-toggle="dropdown" aria-haspopup="true"
+                                   aria-expanded="false">Категория 3</a>
+
+                                <div class="dropdown-menu" aria-labelledby="dropdown-layouts6">
+                                    <a class="dropdown-item" href="#">Категория 4</a>
+                                    <a class="dropdown-item" href="#">Категория 5</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <a th:if="${user != 'anonymous'}" th:href="'/order'">
+                    <button class="btn btn-light">Корзина</button>
+                </a>
+            </div>
+        </div>
+        <form th:action="'/search'" class="d-flex gap-2 col-6 mx-auto">
+            <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Search"
+                   name="search">
+            <button class="btn btn-warning" type="submit">Найти</button>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">
-                        Категории
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li th:each="category : ${categories}">
-                            <a class="dropdown-item" th:href="'/search/' + ${category.id}"
-                               th:text="${category.name}"></a>
-                        </li>
-                    </ul>
+                <li class="nav-item" th:if="${user == 'anonymous'}">
+                    <a class="nav-link" th:text="Вход" th:href="@{/login}"></a>
+                </li>
+                <li class="nav-item" th:if="${user == 'anonymous'}">
+                    <a class="nav-link" th:href="@{/registration}">Регистрация</a>
                 </li>
                 <li class="nav-item" th:if="${user != 'anonymous'}">
-                    <a class="nav-link" th:href="'/order'">Корзина</a>
+                    <a class="nav-link" th:text="${user}" th:href="'/cabinet/' + ${user}"></a>
                 </li>
             </ul>
-            <form th:action="'/search'" class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Search" name="search">
-                <button class="btn btn-outline-success" type="submit">Найти</button>
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item" th:if="${user == 'anonymous'}">
-                        <a class="nav-link" th:text="Вход" th:href="@{/login}"></a>
-                    </li>
-                    <li class="nav-item" th:if="${user == 'anonymous'}">
-                        <a class="nav-link" th:href="@{/registration}">Регистрация</a>
-                    </li>
-                    <li class="nav-item" th:if="${user != 'anonymous'}">
-                        <a class="nav-link" th:text="${user}" th:href="'/cabinet/' + ${user}"></a>
-                    </li>
-                </ul>
-            </form>
-            <form th:if="${user != 'anonymous'}" th:action="@{/logout}" method="post" class="d-flex">
-                <button class="btn btn-outline-success" type="submit">Выйти</button>
-            </form>
-        </div>
+        </form>
+        <form th:if="${user != 'anonymous'}" th:action="@{/logout}" method="post" class="d-flex">
+            <button class="btn btn-danger" type="submit">Выйти</button>
+        </form>
     </div>
 </nav>
 <br>
@@ -71,5 +93,63 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
+<script>
+    obj = [
+        {id: 1, parent_id: null, title: "Row 1"},
+        {id: 2, parent_id: 1, title: "Row 2"},
+        {id: 3, parent_id: 2, title: "Row 3"},
+        {id: 4, parent_id: 2, title: "Row 4"}
+    ]
+
+    let tree = document.getElementById("tree");
+
+    /*for (let i = 0; i < obj.length; ++i) {
+        if (obj[i].parent_id == null) {
+            createNode(obj[i].id, obj[i].title, tree);
+        } else {
+            let treeChildNode = document.getElementById("t" + obj[i].parent_id).getElementsByTagName("div");
+            if (treeChildNode.length) {
+                createNode("div", obj[i].id, obj[i].title, treeChildNode[0]);
+            } else {
+                createNode("div", obj[i].parentId, "", document.getElementById("t" + obj[i].parent_id));
+                createNode("a", obj[i].id, obj[i].title, document.getElementById("t" + obj[i].parent_id).getElementsByTagName("ul")[0]);
+            }
+        }
+    }*/
+
+    function createNode(name, id, text, parent) {
+        let node = document.createElement(name);
+        node.id = "t" + id;
+        node.innerHTML = text;
+        node.class = "dropdown dropend";
+        parent.appendChild(node);
+    }
+
+    (function ($bs) {
+        const CLASS_NAME = 'has-child-dropdown-show';
+        $bs.Dropdown.prototype.toggle = function (_orginal) {
+            return function () {
+                document.querySelectorAll('.' + CLASS_NAME).forEach(function (e) {
+                    e.classList.remove(CLASS_NAME);
+                });
+                let dd = this._element.closest('.dropdown').parentNode.closest('.dropdown');
+                for (; dd && dd !== document; dd = dd.parentNode.closest('.dropdown')) {
+                    dd.classList.add(CLASS_NAME);
+                }
+                return _orginal.call(this);
+            }
+        }($bs.Dropdown.prototype.toggle);
+
+        document.querySelectorAll('.dropdown').forEach(function (dd) {
+            dd.addEventListener('hide.bs.dropdown', function (e) {
+                if (this.classList.contains(CLASS_NAME)) {
+                    this.classList.remove(CLASS_NAME);
+                    e.preventDefault();
+                }
+                e.stopPropagation();
+            });
+        });
+    })(bootstrap);
+</script>
 </body>
 </html>
