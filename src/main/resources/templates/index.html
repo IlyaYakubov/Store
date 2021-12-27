@@ -22,36 +22,41 @@
                     Каталог
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item"
+                    <!--<a class="dropdown-item"
                        th:each="category : ${categories}"
                        th:if="${category.category} == null"
                        th:href="'/search/' + ${category.id}"
-                       th:text="${category.name}"></a>
+                       th:text="${category.name}"></a>-->
+
+                    <div class="dropdown dropend" id="categories">
+
+                        <!--<div class="dropdown dropend">
+                            <a class="dropdown-item" data-bs-toggle="dropdown">Row +</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item">Row 1</a>
 
 
 
-                    <div class="dropdown dropend">
-                        <a class="dropdown-item dropdown-toggle" href="#" id="dropdown-layouts5"
-                           data-bs-toggle="dropdown" aria-haspopup="true"
-                           aria-expanded="false">Категория 1</a>
-
-                        <div class="dropdown-menu" aria-labelledby="dropdown-layouts5">
-                            <a class="dropdown-item" href="#">Категория 2</a>
-
-                            <div class="dropdown dropend">
-                                <a class="dropdown-item dropdown-toggle" href="#" id="dropdown-layouts6"
-                                   data-bs-toggle="dropdown" aria-haspopup="true"
-                                   aria-expanded="false">Категория 3</a>
-
-                                <div class="dropdown-menu" aria-labelledby="dropdown-layouts6">
-                                    <a class="dropdown-item" href="#">Категория 4</a>
-                                    <a class="dropdown-item" href="#">Категория 5</a>
+                                <div class="dropdown dropend">
+                                    <a class="dropdown-item" data-bs-toggle="dropdown">Row 4</a>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item">Row 5</a>
+                                        <a class="dropdown-item">2</a>
+                                        <a class="dropdown-item">3</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
+                        <div class="dropdown dropend">
+                            <a class="dropdown-item" data-bs-toggle="dropdown">Row -</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item">Row 2</a>
+                                <a class="dropdown-item">Row 3</a>
+                            </div>
+                        </div>-->
+
                     </div>
-
-
 
                 </div>
                 <a th:if="${user != 'anonymous'}" th:href="'/order'">
@@ -95,33 +100,34 @@
         crossorigin="anonymous"></script>
 <script>
     obj = [
-        {id: 1, parent_id: null, title: "Row 1"},
-        {id: 2, parent_id: 1, title: "Row 2"},
-        {id: 3, parent_id: 2, title: "Row 3"},
-        {id: 4, parent_id: 2, title: "Row 4"}
+        {id: 1, parent_id: null, title: "Row +"},
+        {id: 2, parent_id: null, title: "Row -"},
+        {id: 3, parent_id: 1, title: "Row 1"},
+        {id: 4, parent_id: 2, title: "Row 2"},
+        {id: 5, parent_id: 2, title: "Row 3"},
+        {id: 6, parent_id: 3, title: "Row 4"},
+        {id: 7, parent_id: 6, title: "Row 5"}
     ]
-
-    let tree = document.getElementById("tree");
-
-    /*for (let i = 0; i < obj.length; ++i) {
-        if (obj[i].parent_id == null) {
-            createNode(obj[i].id, obj[i].title, tree);
+    let categories = document.getElementById("categories");
+    for (let i = 1; i <= obj.length; i++) {
+        if (obj[i - 1].parent_id == null) {
+            createChild(obj[i - 1].id, obj[i - 1].title, categories);
         } else {
-            let treeChildNode = document.getElementById("t" + obj[i].parent_id).getElementsByTagName("div");
-            if (treeChildNode.length) {
-                createNode("div", obj[i].id, obj[i].title, treeChildNode[0]);
+            let parent = document.getElementById("t_" + obj[i - 1].parent_id);
+            if (obj[obj[i - 1].parent_id - 1].parent_id != null) {
+                createChild(obj[i - 1].id, obj[i - 1].title, document.getElementById("t_" + obj[i - 1].parent_id));
             } else {
-                createNode("div", obj[i].parentId, "", document.getElementById("t" + obj[i].parent_id));
-                createNode("a", obj[i].id, obj[i].title, document.getElementById("t" + obj[i].parent_id).getElementsByTagName("ul")[0]);
+                createChild(obj[i - 1].id, obj[i - 1].title, parent);
             }
         }
-    }*/
+    }
 
-    function createNode(name, id, text, parent) {
-        let node = document.createElement(name);
-        node.id = "t" + id;
-        node.innerHTML = text;
-        node.class = "dropdown dropend";
+    function createChild(id, text, parent) {
+        let node = document.createElement("div");
+        node.className = "dropdown dropend";
+        node.innerHTML = '<a class="dropdown-item" data-bs-toggle="dropdown">' + text + '</a>' +
+            '<div class="dropdown-menu" id="t_' + id + '">' +
+            '<a class="dropdown-item"></a>';
         parent.appendChild(node);
     }
 
