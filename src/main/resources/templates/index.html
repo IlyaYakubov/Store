@@ -10,6 +10,7 @@
             height: 150px;
         }
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -18,46 +19,12 @@
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button"
                         id="dropdownMenuButton"
-                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                        onclick="getCategories()">
                     Каталог
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <!--<a class="dropdown-item"
-                       th:each="category : ${categories}"
-                       th:if="${category.category} == null"
-                       th:href="'/search/' + ${category.id}"
-                       th:text="${category.name}"></a>-->
-
-                    <div class="dropdown dropend" id="categories">
-
-                        <!--<div class="dropdown dropend">
-                            <a class="dropdown-item" data-bs-toggle="dropdown">Row +</a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item">Row 1</a>
-
-
-
-                                <div class="dropdown dropend">
-                                    <a class="dropdown-item" data-bs-toggle="dropdown">Row 4</a>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item">Row 5</a>
-                                        <a class="dropdown-item">2</a>
-                                        <a class="dropdown-item">3</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="dropdown dropend">
-                            <a class="dropdown-item" data-bs-toggle="dropdown">Row -</a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item">Row 2</a>
-                                <a class="dropdown-item">Row 3</a>
-                            </div>
-                        </div>-->
-
-                    </div>
-
+                    <div class="dropdown dropend" id="categories"></div>
                 </div>
                 <a th:if="${user != 'anonymous'}" th:href="'/order'">
                     <button class="btn btn-light">Корзина</button>
@@ -87,8 +54,8 @@
 </nav>
 <br>
 <div class="container">
-    <div th:each="item : ${items}">
-        <a th:href="'/catalog/items/' + ${item.id}">
+    <div>
+        <a th:each="item : ${items}" th:href="'/catalog/items/' + ${item.id}">
             <img class='img-thumbnail' th:src="@{'/images/' + ${item.filename}}" alt="Картинка"/>
             <p th:text="${item.name}"></p>
             <p th:text="${item.price}"></p>
@@ -99,41 +66,49 @@
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
 <script>
-    // todo тут должен быть список категорий из БД
-    obj = [
-        {id: 1, parent_id: null, title: "Row +"},
-        {id: 2, parent_id: null, title: "Row -"},
-        {id: 3, parent_id: 1, title: "Row 1"},
-        {id: 4, parent_id: 2, title: "Row 2"},
-        {id: 5, parent_id: 2, title: "Row 3"},
-        {id: 6, parent_id: 3, title: "Row 4"},
-        {id: 7, parent_id: 6, title: "Row 5"}
-    ]
+    let allCategories;
     let categories = document.getElementById("categories");
-    for (let i = 1; i <= obj.length; i++) {
-        if (obj[i - 1].parent_id == null) {
-            createChild(obj[i - 1].id, obj[i - 1].title, categories);
-        } else {
-            let parent = document.getElementById("t_" + obj[i - 1].parent_id);
-            if (obj[obj[i - 1].parent_id - 1].parent_id != null) {
-                createChild(obj[i - 1].id, obj[i - 1].title, document.getElementById("t_" + obj[i - 1].parent_id));
-            } else {
-                createChild(obj[i - 1].id, obj[i - 1].title, parent);
+
+    function getCategories() {
+        $.ajax({
+            url: "/categories/all",
+            method: "post",
+            cache: false,
+            dataType: "html",
+            data: {
+                // nothing
+            },
+            success: function (data) {
+                categories.innerHTML = "";
+
+                allCategories = JSON.parse(data);
+                for (let i = 1; i <= allCategories.length; i++) {
+                    if (allCategories[i - 1].category == null) {
+                        createChild(allCategories[i - 1].id, allCategories[i - 1].name, categories);
+                    } else {
+                        let parent = document.getElementById("t_" + allCategories[i - 1].category.id);
+                        if (allCategories[allCategories[i - 1].category.id - 1].category != null) {
+                            createChild(allCategories[i - 1].id, allCategories[i - 1].name, document.getElementById("t_" + allCategories[i - 1].category.id));
+                        } else {
+                            createChild(allCategories[i - 1].id, allCategories[i - 1].name, parent);
+                        }
+                    }
+                }
+
+                document.querySelectorAll('a').forEach(value => {
+                    if (value.lastChild == null) {
+                        value.remove();
+                    }
+                });
+
+                document.querySelectorAll('.dropdown-menu').forEach(value => {
+                    if (value.lastChild == null) {
+                        value.setAttribute('style', 'display: none');
+                    }
+                });
             }
-        }
+        });
     }
-
-    document.querySelectorAll('a').forEach(value => {
-        if (value.lastChild == null) {
-            value.remove();
-        }
-    });
-
-    document.querySelectorAll('.dropdown-menu').forEach(value => {
-        if (value.lastChild == null) {
-            value.setAttribute('style', 'display: none');
-        }
-    });
 
     function createChild(id, text, parent) {
         let node = document.createElement("div");

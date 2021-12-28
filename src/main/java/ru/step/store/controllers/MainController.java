@@ -1,6 +1,7 @@
 package ru.step.store.controllers;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
+import ru.step.store.models.Category;
 import ru.step.store.models.Item;
 import ru.step.store.models.Role;
 import ru.step.store.repositories.CategoryRepository;
@@ -34,7 +35,7 @@ public class MainController {
     @GetMapping
     public String getIndexPage(@AuthenticationPrincipal User user, Model model) {
         model.addAttribute("items", itemRepository.findAll());
-        model.addAttribute("categories", categoryRepository.findAll());
+        //model.addAttribute("categories", categoryRepository.findAll());
 
         if (user != null && user.getRoles().stream().findFirst().get().name().equals("ADMIN")) {
             return "redirect:/admin";
@@ -73,5 +74,11 @@ public class MainController {
             model.addAttribute("user", user.getUsername());
         }
         return "user/item";
+    }
+
+    @ResponseBody
+    @PostMapping("/categories/all")
+    public Iterable<Category> getAllCategories() {
+        return categoryRepository.findAll();
     }
 }

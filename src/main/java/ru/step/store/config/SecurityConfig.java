@@ -33,13 +33,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
         http.authorizeRequests()
                 .antMatchers("/", "/login", "/registration",
                         "/images/*", "/catalog/items/**", "/buy/**",
-                        "/search", "/search/**")
+                        "/search", "/search/**", "/categories/all")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/login").defaultSuccessUrl("/")
                 .and()
-                .logout().logoutUrl("/logout").logoutSuccessUrl("/").permitAll();
+                .logout().logoutUrl("/logout").logoutSuccessUrl("/").permitAll().and().csrf().disable();
     }
 
     @Override
