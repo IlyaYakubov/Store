@@ -99,6 +99,7 @@
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
 <script>
+    // todo тут должен быть список категорий из БД
     obj = [
         {id: 1, parent_id: null, title: "Row +"},
         {id: 2, parent_id: null, title: "Row -"},
@@ -122,34 +123,47 @@
         }
     }
 
+    document.querySelectorAll('a').forEach(value => {
+        if (value.lastChild == null) {
+            value.remove();
+        }
+    });
+
+    document.querySelectorAll('.dropdown-menu').forEach(value => {
+        if (value.lastChild == null) {
+            value.setAttribute('style', 'display: none');
+        }
+    });
+
     function createChild(id, text, parent) {
         let node = document.createElement("div");
         node.className = "dropdown dropend";
-        node.innerHTML = '<a class="dropdown-item" data-bs-toggle="dropdown">' + text + '</a>' +
-            '<div class="dropdown-menu" id="t_' + id + '">' +
-            '<a class="dropdown-item"></a>';
+        node.innerHTML = '<a class="dropdown-item" data-bs-toggle="dropdown">' + text + '</a>'
+            + '<div class="dropdown-menu" id="t_' + id + '">' + '<a class="dropdown-item"></a>';
         parent.appendChild(node);
     }
 
     (function ($bs) {
-        const CLASS_NAME = 'has-child-dropdown-show';
-        $bs.Dropdown.prototype.toggle = function (_orginal) {
+        const className = 'has-child-dropdown-show';
+        $bs.Dropdown.prototype.toggle = function (original) {
             return function () {
-                document.querySelectorAll('.' + CLASS_NAME).forEach(function (e) {
-                    e.classList.remove(CLASS_NAME);
+                document.querySelectorAll('.' + className).forEach(function (e) {
+                    e.classList.remove(className);
                 });
-                let dd = this._element.closest('.dropdown').parentNode.closest('.dropdown');
-                for (; dd && dd !== document; dd = dd.parentNode.closest('.dropdown')) {
-                    dd.classList.add(CLASS_NAME);
+                let dropdown = this._element.closest('.dropdown').parentNode.closest('.dropdown');
+                for (; dropdown && dropdown !== document; dropdown = dropdown.parentNode.closest('.dropdown')) {
+                    dropdown.classList.add(className);
                 }
-                return _orginal.call(this);
+                // todo тут запрос на вывод товаров определенной категории this._menu.id
+                console.log(this._menu.id);
+                return original.call(this);
             }
         }($bs.Dropdown.prototype.toggle);
 
-        document.querySelectorAll('.dropdown').forEach(function (dd) {
-            dd.addEventListener('hide.bs.dropdown', function (e) {
-                if (this.classList.contains(CLASS_NAME)) {
-                    this.classList.remove(CLASS_NAME);
+        document.querySelectorAll('.dropdown').forEach(function (dropdown) {
+            dropdown.addEventListener('hide.bs.dropdown', function (e) {
+                if (this.classList.contains(className)) {
+                    this.classList.remove(className);
                     e.preventDefault();
                 }
                 e.stopPropagation();
