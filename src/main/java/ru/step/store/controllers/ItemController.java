@@ -1,6 +1,7 @@
 package ru.step.store.controllers;
 
 import ru.step.store.models.Brand;
+import ru.step.store.models.Category;
 import ru.step.store.models.Color;
 import ru.step.store.models.Item;
 import ru.step.store.repositories.BrandRepository;
@@ -150,5 +151,11 @@ public class ItemController {
 
     static class StorageFileNotFoundException extends Exception {
 
+    }
+
+    @ResponseBody
+    @PostMapping("/items/{category_id}")
+    public Iterable<Item> getItemsByCategoryId(@PathVariable Long category_id) {
+        return itemRepository.findItemsByCategory_Id(category_id);
     }
 }

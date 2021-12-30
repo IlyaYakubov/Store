@@ -29,10 +29,6 @@ public class CategoryController {
 
     @PostMapping("/category/create")
     public String createCategory(@RequestParam("name") String name, @RequestParam("categoryName") String categoryName) {
-        if (categoryRepository.findCategoryByName(name) != null) {
-            return "redirect:/categories";
-        }
-
         Category category = new Category();
         category.setName(name);
         category.setCategory(categoryRepository.findCategoryByName(categoryName));
