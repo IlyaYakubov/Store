@@ -85,25 +85,26 @@
                 categories.innerHTML = "";
 
                 allCategories = JSON.parse(data);
-                for (let i = 1; i <= allCategories.length; i++) {
-                    if (allCategories[i - 1].category == null) {
-                        createChild(allCategories[i - 1].id, allCategories[i - 1].name, categories);
+                for (let i = 0; i < allCategories.length; i++) {
+                    if (allCategories[i].category == null) {
+                        createChild(allCategories[i].id, allCategories[i].name, categories, 0);
                     } else {
-                        let parent = document.getElementById("t_" + allCategories[i - 1].category.id);
-                        if (allCategories[allCategories[i - 1].category.id - 1].category != null) {
-                            createChild(allCategories[i - 1].id, allCategories[i - 1].name, document.getElementById("t_" + allCategories[i - 1].category.id));
+                        let parent = document.getElementById("t_" + allCategories[i].category.id);
+                        if (allCategories[allCategories[i].category.id - 1].category != null) {
+                            createChild(allCategories[i].id, allCategories[i].name, document.getElementById("t_" + allCategories[i].category.id)
+                                , allCategories[i].id);
                         } else {
-                            createChild(allCategories[i - 1].id, allCategories[i - 1].name, parent);
+                            createChild(allCategories[i].id, allCategories[i].name, parent, allCategories[i].id);
                         }
                     }
                 }
 
-                function createChild(id, text, parent) {
+                function createChild(id, text, parent, category_id) {
                     let node = document.createElement("div");
                     node.className = "dropdown dropend";
-                    node.innerHTML = '<a class="dropdown-item" data-bs-toggle="dropdown">' + text + '</a>'
+                    node.innerHTML = '<a class="dropdown-item" data-bs-toggle="dropdown" onclick="getItemsByCategoryId(' + category_id + ')">' + text + '</a>'
                         + '<div class="dropdown-menu" aria-labelledby="dropdown-layouts" id="t_' + id + '" '
-                        + 'onclick="getItemsByCategoryId(' + id + ')">' + '<a class="dropdown-item"></a>';
+                        + '>' + '<a class="dropdown-item"></a>';
                     parent.appendChild(node);
                 }
 
@@ -172,7 +173,7 @@
                 // nothing
             },
             success: function (data) {
-                console.log(data);
+                console.log(category_id + '    ------------------------------    ' + data);
             }
         });
     }
