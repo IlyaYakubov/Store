@@ -1,9 +1,9 @@
 package ru.step.store.repositories;
 
-import ru.step.store.models.Item;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
-
-import java.util.List;
+import ru.step.store.models.Item;
 
 public interface ItemRepository extends CrudRepository<Item, Long> {
 
@@ -11,5 +11,7 @@ public interface ItemRepository extends CrudRepository<Item, Long> {
 
     Item findItemByCategory_Id(Long categoryId);
 
-    List<Item> findItemsByCategory_Id(Long categoryId);
+    Page<Item> findItemsByCategory_Id(Long categoryId, Pageable pageable);
+
+    Page<Item> findAll(Pageable pageable);
 }

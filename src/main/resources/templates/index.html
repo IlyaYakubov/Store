@@ -17,6 +17,9 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
         <div class="container-fluid">
+            <a th:href="'/'">
+                <button class="btn btn-light">На главную</button>
+            </a>
             <div class="d-flex dropdown-hover-all">
                 <div class="dropdown mt-3">
                     <button class="btn btn-secondary dropdown-toggle" type="button"
@@ -57,9 +60,22 @@
 </nav>
 <br>
 <div class="container" id="items">
-    <!--<div th:each="item : ${items}">
-    </div>-->
+    <a th:each="item : ${items}" th:href="@{'/catalog/items/' + ${item.id}}">
+        <img class="img-thumbnail" th:src="@{'/images/' + ${item.filename}}" alt="Картинка"/>
+        <p th:text="${item.name}"></p>
+        <p th:text="${item.price}"></p>
+    </a>
 </div>
+<div class="container">
+    <nav aria-label="Pages">
+        <ul class="pagination" id="pages">
+            <li class="page-item" th:each="page : ${pages}">
+                <a class="page-link" th:onclick="|getPaginationItems(${page})|" th:text="${page + 1}"></a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
@@ -97,17 +113,17 @@
                 function createChild(id, text, parent, category_id) {
                     let node = document.createElement("div");
                     node.className = "dropdown dropend";
-                    node.innerHTML = '<a class="dropdown-item" data-bs-toggle="dropdown" onclick="getItemsByCategoryId(' + category_id + ')">' + text + '</a>'
+                    node.innerHTML = '<a class="dropdown-item" data-bs-toggle="dropdown" onclick="getItemsByCategoryId(' + category_id + ', 0)">' + text + '</a>'
                         + '<div class="dropdown-menu" aria-labelledby="dropdown-layouts" id="t_' + id + '" '
                         + '>' + '<a class="dropdown-item"></a>';
                     parent.appendChild(node);
                 }
 
-                (function($bs) {
+                (function ($bs) {
                     const CLASS_NAME = 'has-child-dropdown-show';
-                    $bs.Dropdown.prototype.toggle = function(_orginal) {
-                        return function() {
-                            document.querySelectorAll('.' + CLASS_NAME).forEach(function(e) {
+                    $bs.Dropdown.prototype.toggle = function (_orginal) {
+                        return function () {
+                            document.querySelectorAll('.' + CLASS_NAME).forEach(function (e) {
                                 e.classList.remove(CLASS_NAME);
                             });
                             let dd = this._element.closest('.dropdown').parentNode.closest('.dropdown');
@@ -118,8 +134,8 @@
                         }
                     }($bs.Dropdown.prototype.toggle);
 
-                    document.querySelectorAll('.dropdown').forEach(function(dd) {
-                        dd.addEventListener('hide.bs.dropdown', function(e) {
+                    document.querySelectorAll('.dropdown').forEach(function (dd) {
+                        dd.addEventListener('hide.bs.dropdown', function (e) {
                             if (this.classList.contains(CLASS_NAME)) {
                                 this.classList.remove(CLASS_NAME);
                                 e.preventDefault();
@@ -128,8 +144,8 @@
                         });
                     });
 
-                    document.querySelectorAll('.dropdown-hover, .dropdown-hover-all .dropdown').forEach(function(dd) {
-                        dd.addEventListener('mouseenter', function(e) {
+                    document.querySelectorAll('.dropdown-hover, .dropdown-hover-all .dropdown').forEach(function (dd) {
+                        dd.addEventListener('mouseenter', function (e) {
                             let toggle = e.target.querySelector(':scope>[data-bs-toggle="dropdown"]');
                             if (!toggle.classList.contains('show')) {
                                 $bs.Dropdown.getOrCreateInstance(toggle).toggle();
@@ -158,9 +174,9 @@
         });
     }
 
-    function getItemsByCategoryId(category_id) {
+    function getItemsByCategoryId(category_id, page) {
         $.ajax({
-            url: "/items/" + category_id,
+            url: "/items/" + category_id + "?page=" + page,
             method: "post",
             cache: false,
             dataType: "html",
@@ -169,10 +185,51 @@
             },
             success: function (data) {
                 let items = JSON.parse(data);
-                for (let item of items) {
+                let itemsDiv = document.getElementById("items");
+                itemsDiv.innerHTML = "";
+                for (let item of items.content) {
                     let node = document.createElement("div");
                     node.innerHTML = '<a href="/catalog/items/' + item.id + '">' +
                         '                        <img className="img-thumbnail" src="/images/' + item.filename + '" alt="Картинка"/>' +
+                        '                        <p>' + item.name + '</p>' +
+                        '                        <p>' + item.price + '</p>' +
+                        '                    </a>';
+                    document.getElementById("items").appendChild(node);
+                }
+
+                let pages = document.getElementById("pages");
+                pages.innerHTML = "";
+                for (let i = 1; i <= items.totalPages; i++) {
+                    let pagination = document.createElement("li");
+                    pagination.className = "page-item";
+                    pagination.innerHTML = '<a class="page-link" onclick="getPagination(' + category_id + ',' + (i - 1) + ')">' + i + '</a>';
+                    pages.appendChild(pagination);
+                }
+            }
+        });
+    }
+
+    function getPagination(category_id, page) {
+        getItemsByCategoryId(category_id, page);
+    }
+
+    function getPaginationItems(page) {
+        $.ajax({
+            url: "/items/?page=" + page,
+            method: "post",
+            cache: false,
+            dataType: "html",
+            data: {
+                // nothing
+            },
+            success: function (data) {
+                let items = JSON.parse(data);
+                let itemsDiv = document.getElementById("items");
+                itemsDiv.innerHTML = "";
+                for (let item of items.content) {
+                    let node = document.createElement("div");
+                    node.innerHTML = '<a href="/catalog/items/' + item.id + '">' +
+                        '                        <img class="img-thumbnail" src="/images/' + item.filename + '" alt="Картинка"/>' +
                         '                        <p>' + item.name + '</p>' +
                         '                        <p>' + item.price + '</p>' +
                         '                    </a>';
