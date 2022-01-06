@@ -42,6 +42,7 @@ public class OrderController {
         Item item = itemRepository.findById(id).get();
         OrderElement orderElement = new OrderElement();
         orderElement.setItem(item);
+        orderElement.setQuantity(1L);
         orderElement.setSum(item.getPrice());
         orderElement.setUser(user);
         orderElementRepository.save(orderElement);
@@ -69,6 +70,7 @@ public class OrderController {
         Item item = itemRepository.findById(id).get();
         OrderElement orderElement = new OrderElement();
         orderElement.setItem(item);
+        orderElement.setQuantity(1L);
         orderElement.setSum(item.getPrice());
         orderElement.setUser(null);
         orderElementRepository.save(orderElement);

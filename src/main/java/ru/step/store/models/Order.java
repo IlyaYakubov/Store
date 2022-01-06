@@ -24,8 +24,8 @@ public class Order {
     public String toString() {
         StringBuilder items = new StringBuilder();
         for (OrderElement orderElement : orderElements) {
-            items.append(orderElement.getItem()).append(", ");
+            items.append(orderElement.getItem()).append(" ----- ");
         }
-        return "Заказ номер: " + id + ", Товары: " + items;
+        return "Заказаны товары: " + items;
     }
 }

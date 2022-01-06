@@ -14,7 +14,7 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
-    private Long size;
+    private String size;
     private BigInteger price;
     private String filename;
 
@@ -29,7 +29,7 @@ public class Item {
 
     @Override
     public String toString() {
-        return "Наименование: " + name +
+        return "наименование: " + name +
                 ", размер: " + size +
                 ", цена: " + price +
                 ", брэнд: " + brand +

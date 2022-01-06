@@ -109,7 +109,7 @@ public class ItemController {
                           Item item) {
         item.setCategory(categoryRepository.findCategoryByName(categoryName));
         item.setName(name);
-        item.setSize(Long.parseLong(size));
+        item.setSize(size);
         item.setPrice(BigInteger.valueOf(Long.parseLong(price)));
         Brand brand = brandRepository.findBrandByName(brandName);
         if (brand == null) {
