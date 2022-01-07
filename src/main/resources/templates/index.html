@@ -75,7 +75,7 @@
     <nav aria-label="Pages">
         <ul class="pagination justify-content-md-center" id="pages">
             <li class="page-item" th:each="page : ${pages}">
-                <a class="page-link" th:onclick="|getPaginationItems(${page})|" th:text="${page + 1}"></a>
+                <a class="page-link" th:href="'/catalog/?page=' + ${page}" th:text="${page + 1}"></a>
             </li>
         </ul>
     </nav>
@@ -206,31 +206,6 @@
 
     function getPagination(category_id, page) {
         getItemsByCategoryId(category_id, page);
-    }
-
-    function getPaginationItems(page) {
-        $.ajax({
-            url: "/items/?page=" + page,
-            method: "post",
-            cache: false,
-            dataType: "html",
-            data: {
-                // nothing
-            },
-            success: function (data) {
-                let items = JSON.parse(data);
-                let itemsDiv = document.getElementById("items");
-                itemsDiv.innerHTML = "";
-                for (let item of items.content) {
-                    let node = document.createElement("div");
-                    node.innerHTML = `<a class="nav-link active" href="/catalog/items/${item.id}">
-<img class="img-thumbnail" src="/images/${item.filename}" alt="Картинка"/></a>
-<p>${item.name}</p><p>${item.price} &#8381;</p>`;
-                    node.className = "card col";
-                    itemsDiv.appendChild(node);
-                }
-            }
-        });
     }
 </script>
 </body>

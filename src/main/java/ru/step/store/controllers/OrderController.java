@@ -1,5 +1,6 @@
 package ru.step.store.controllers;
 
+import org.springframework.web.bind.annotation.ResponseBody;
 import ru.step.store.models.*;
 import ru.step.store.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,7 @@ public class OrderController {
         return "/user/order";
     }
 
+    @ResponseBody
     @PostMapping("/order/{id}")
     public String addInOrder(@PathVariable Long id, @AuthenticationPrincipal User user) {
         Item item = itemRepository.findById(id).get();
@@ -48,7 +50,7 @@ public class OrderController {
         orderElement.setSum(item.getPrice());
         orderElement.setUser(user);
         orderElementRepository.save(orderElement);
-        return "redirect:/";
+        return "Товар добавлен в корзину";
     }
 
     @GetMapping("/order/create")

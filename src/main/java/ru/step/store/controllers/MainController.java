@@ -87,4 +87,33 @@ public class MainController {
     public Iterable<Category> getAllCategories() {
         return categoryRepository.findAll();
     }
+
+    @GetMapping("/catalog/")
+    public String getItemFromPage(@AuthenticationPrincipal User user,
+                               Model model,
+                               @RequestParam(value = "page", required = false, defaultValue = "0") Integer page) {
+        Page<Item> items = itemRepository.findAll(PageRequest.of(page, 3));
+        model.addAttribute("items", items.getContent());
+        model.addAttribute("pages", IntStream.range(0, items.getTotalPages()).toArray());
+
+        if (user != null && user.getRoles().stream().findFirst().get().name().equals("ADMIN")) {
+            return "redirect:/admin";
+        }
+
+        final int[] counter = {0};
+        userRepository.findAll().forEach(role -> counter[0]++);
+        if (counter[0] == 0) {
+            User admin = new User();
+            admin.setUsername("admin");
+            admin.setPassword(passwordEncoder.encode("123"));
+            admin.setRoles(Collections.singleton(Role.ADMIN));
+            userRepository.save(admin);
+        }
+
+        model.addAttribute("user", "anonymous");
+        if (user != null) {
+            model.addAttribute("user", user.getUsername());
+        }
+        return "index";
+    }
 }
