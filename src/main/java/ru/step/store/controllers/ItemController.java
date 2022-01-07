@@ -55,7 +55,7 @@ public class ItemController {
 
     @SneakyThrows
     @PostMapping("/item/create")
-    public String createItem(@RequestParam("categoryName") String categoryName,
+    public String createItem(@RequestParam("categoryId") String categoryId,
                              @RequestParam("name") String name,
                              @RequestParam("brand") String brandName,
                              @RequestParam("size") String size,
@@ -67,7 +67,7 @@ public class ItemController {
         }
 
         Item item = new Item();
-        fillItem(categoryName, name, brandName, size, colorName, price, filename, item);
+        fillItem(categoryId, name, brandName, size, colorName, price, filename, item);
 
         itemRepository.save(item);
 
@@ -78,28 +78,30 @@ public class ItemController {
     public String editItem(@PathVariable("id") Long id, Model model) {
         Item item = itemRepository.findById(id).get();
         model.addAttribute("item", item);
-        model.addAttribute("filename", item.getFilename());
         return "admin/edit-item";
     }
 
     @PostMapping("/item/{id}")
     public String updateItem(@PathVariable("id") Long id,
-                             @RequestParam("categoryName") String categoryName,
+                             @RequestParam("categoryId") String categoryId,
                              @RequestParam("name") String name,
                              @RequestParam("brand") String brandName,
                              @RequestParam("size") String size,
                              @RequestParam("color") String colorName,
                              @RequestParam("price") String price,
+                             @RequestParam("filenameImage") String filenameImage,
                              @RequestParam("filename") MultipartFile filename) {
         Item item = itemRepository.findById(id).get();
-        fillItem(categoryName, name, brandName, size, colorName, price, filename, item);
-
+        fillItem(categoryId, name, brandName, size, colorName, price, filename, item);
+        if (filename.getOriginalFilename().isEmpty()) {
+            item.setFilename(filenameImage);
+        }
         itemRepository.save(item);
 
         return "redirect:/items";
     }
 
-    private void fillItem(@RequestParam("categoryName") String categoryName,
+    private void fillItem(@RequestParam("categoryId") String categoryId,
                           @RequestParam("name") String name,
                           @RequestParam("brand") String brandName,
                           @RequestParam("size") String size,
@@ -107,7 +109,11 @@ public class ItemController {
                           @RequestParam("price") String price,
                           @RequestParam("filename") MultipartFile filename,
                           Item item) {
-        item.setCategory(categoryRepository.findCategoryByName(categoryName));
+        if (categoryId.isEmpty()) {
+            item.setCategory(null);
+        } else {
+            item.setCategory(categoryRepository.findCategoryById(Long.parseLong(categoryId)));
+        }
         item.setName(name);
         item.setSize(size);
         item.setPrice(BigInteger.valueOf(Long.parseLong(price)));
@@ -121,7 +127,9 @@ public class ItemController {
             color = createColor(colorName);
         }
         item.setColor(color);
-        storageService.store(filename);
+        if (!filename.getOriginalFilename().isEmpty()) {
+            storageService.store(filename);
+        }
         item.setFilename(filename.getOriginalFilename());
     }
 

@@ -68,7 +68,7 @@
             <img class="img-thumbnail" th:src="@{'/images/' + ${item.filename}}" alt="Картинка"/>
         </a>
         <p th:text="${item.name}"></p>
-        <p th:text="${item.price}"></p>
+        <p th:text="${item.price} + ' &#8381;'"></p>
     </div>
 </div>
 <div class="container">
@@ -192,7 +192,7 @@
                 itemsDiv.innerHTML = "";
                 for (let item of items.content) {
                     let node = document.createElement("div");
-                    node.innerHTML = `<div class="card"><a class="nav-link active" href="/catalog/items/${item.id}"><img class="img-thumbnail" src="/images/${item.filename}" alt="Картинка"/></a><p>${item.name}</p><p>${item.price}</p></div>`;
+                    node.innerHTML = `<div class="card"><a class="nav-link active" href="/catalog/items/${item.id}"><img class="img-thumbnail" src="/images/${item.filename}" alt="Картинка"/></a><p>${item.name}</p><p>${item.price} &#8381;</p></div>`;
                     itemsDiv.appendChild(node);
                 }
 
@@ -227,7 +227,7 @@
                 itemsDiv.innerHTML = "";
                 for (let item of items.content) {
                     let node = document.createElement("div");
-                    node.innerHTML = `<div class="card"><a class="nav-link active" href="/catalog/items/${item.id}"><img class="img-thumbnail" src="/images/${item.filename}" alt="Картинка"/></a><p>${item.name}</p><p>${item.price}</p></div>`;
+                    node.innerHTML = `<div class="card"><a class="nav-link active" href="/catalog/items/${item.id}"><img class="img-thumbnail" src="/images/${item.filename}" alt="Картинка"/></a><p>${item.name}</p><p>${item.price} &#8381;</p></div>`;
                     itemsDiv.appendChild(node);
                 }
             }

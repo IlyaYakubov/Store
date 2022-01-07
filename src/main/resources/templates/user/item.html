@@ -30,7 +30,7 @@
                         <li class="list-group-item">Цвет: <p th:text="${item.color}"></p></li>
                         <li class="list-group-item">Размер: <p th:text="${item.size}"></p></li>
                         <li class="list-group-item">Бренд: <p th:text="${item.brand}"></p></li>
-                        <li class="list-group-item">Цена: <p th:text="${item.price}"></p></li>
+                        <li class="list-group-item">Цена: <p th:text="${item.price} + ' &#8381;'"></p></li>
                         <br>
                         <li class="list-group-item" th:if="${user != 'anonymous'}">
                             <button type="submit" class="btn btn-primary">В корзину</button>

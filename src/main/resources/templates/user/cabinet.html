@@ -76,7 +76,7 @@
         <tbody>
         <tr th:each="order : ${orders}">
             <td th:text="'Заказано:'"></td>
-            <td><div th:each="element : ${order.orderElements}" th:text="${element.item.name} + ' ' + ${element.sum}"></div></td>
+            <td><div th:each="element : ${order.orderElements}" th:text="${element.item.name} + ' ' + ${element.sum} + ' &#8381;'"></div></td>
         </tr>
         </tbody>
     </table>

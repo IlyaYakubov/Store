@@ -32,7 +32,7 @@
             <tr th:each="cartElement : ${cart}">
                 <td th:text="${cartElement.item.name}"></td>
                 <td>1</td>
-                <td th:text="${cartElement.item.price}"></td>
+                <td th:text="${cartElement.item.price} + ' &#8381;'"></td>
             </tr>
             </tbody>
             <tfoot>
@@ -40,7 +40,7 @@
                 <th scope="col"></th>
                 <td></td>
                 <td></td>
-                <td th:text="${sum}"></td>
+                <td th:text="${sum} + ' &#8381;'"></td>
             </tr>
             </tfoot>
         </table>
