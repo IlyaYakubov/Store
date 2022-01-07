@@ -57,7 +57,7 @@
             </ul>
         </form>
         <form th:if="${user != 'anonymous'}" th:action="@{/logout}" method="post" class="d-flex">
-            <button class="btn btn-danger" type="submit">Выйти</button>
+            <div class="container"><button class="btn btn-danger" type="submit">Выйти</button></div>
         </form>
     </div>
 </nav>
