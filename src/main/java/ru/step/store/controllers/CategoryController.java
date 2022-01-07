@@ -28,10 +28,13 @@ public class CategoryController {
     }
 
     @PostMapping("/category/create")
-    public String createCategory(@RequestParam("name") String name, @RequestParam("categoryName") String categoryName) {
+    public String createCategory(@RequestParam("name") String name, @RequestParam("categoryId") String categoryId) {
         Category category = new Category();
         category.setName(name);
-        category.setCategory(categoryRepository.findCategoryByName(categoryName));
+        if (categoryId.isEmpty()) {
+            categoryId = "1";
+        }
+        category.setCategory(categoryRepository.findCategoryById(Long.parseLong(categoryId)));
         categoryRepository.save(category);
 
         return "redirect:/categories";
@@ -45,11 +48,19 @@ public class CategoryController {
 
     @PostMapping("/category/{id}")
     public String updateCategory(@PathVariable("id") Long id,
-                                 @RequestParam("categoryName") String categoryName,
+                                 @RequestParam("categoryId") String categoryId,
                                  @RequestParam("name") String name) {
+        if (!categoryId.isEmpty()) {
+            if (Long.parseLong(categoryId) == id) {
+                return "redirect:/categories";
+            }
+        }
         Category category = categoryRepository.findById(id).get();
         category.setName(name);
-        category.setCategory(categoryRepository.findCategoryByName(categoryName));
+        if (categoryId.isEmpty()) {
+            categoryId = "1";
+        }
+        category.setCategory(categoryRepository.findCategoryById(Long.parseLong(categoryId)));
         categoryRepository.save(category);
 
         return "redirect:/categories";

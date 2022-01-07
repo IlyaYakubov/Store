@@ -7,6 +7,7 @@
     <title>Редактирование категории</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -32,9 +33,14 @@
     <hr>
     <form th:action="'/category/create'" method="post">
         <div class="input-group mb-3">
-            <span class="input-group-text" id="inputGroup-sizing-default1">Родитель</span>
-            <input type="text" class="form-control" aria-label="category-name" name="categoryName"
+            <button class="btn btn-light dropdown dropdown-hover-all">
+                <a id="dropdownMenuButton222" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                   onclick="getCategories()">Категория</a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton222" id="categories"></div>
+            </button>
+            <input id="category" type="text" class="form-control" aria-label="category" name="category"
                    aria-describedby="inputGroup-sizing-default">
+            <input type="hidden" id="categoryId" name="categoryId">
         </div>
         <div class="input-group mb-3">
             <span class="input-group-text" id="inputGroup-sizing-default2">Наименование</span>
@@ -45,6 +51,106 @@
         <input type="submit" class="btn btn-primary" value="Применить изменения">
     </form>
 </div>
+<script>
+    let allCategories;
+    let categories = document.getElementById("categories");
+
+    function getCategories() {
+        $.ajax({
+            url: "/categories/all",
+            method: "post",
+            cache: false,
+            dataType: "html",
+            data: {
+                // nothing
+            },
+            success: function (data) {
+                categories.innerHTML = "";
+                allCategories = JSON.parse(data);
+                console.log(allCategories)
+
+                for (let i = 0; i < allCategories.length; i++) {
+                    if (allCategories[i].category == null) {
+                        createChild(allCategories[i].id, allCategories[i].name, categories, 1);
+                    } else {
+                        let parent = document.getElementById("t_" + allCategories[i].category.id);
+                        /*if (allCategories[allCategories[i].category.id - 1].id !== '1') {
+                            createChild(allCategories[i].id, allCategories[i].name, document.getElementById("t_" + allCategories[i].category.id)
+                                , allCategories[i].id);
+                        } else {*/
+                        createChild(allCategories[i].id, allCategories[i].name, parent, allCategories[i].id);
+                        /*}*/
+                    }
+                }
+
+                function createChild(id, text, parent, category_id) {
+                    let node = document.createElement("div");
+                    node.className = "dropdown dropend";
+                    node.innerHTML = `<a class="dropdown-item" data-bs-toggle="dropdown" onclick="getItemsByCategoryId(${category_id}, '${text}')">${text}</a><div class="dropdown-menu" aria-labelledby="dropdown-layouts" id="t_${id}" ><a class="dropdown-item"></a>`;
+                    parent.appendChild(node);
+                }
+
+                (function ($bs) {
+                    const CLASS_NAME = 'has-child-dropdown-show';
+                    $bs.Dropdown.prototype.toggle = function (_orginal) {
+                        return function () {
+                            document.querySelectorAll('.' + CLASS_NAME).forEach(function (e) {
+                                e.classList.remove(CLASS_NAME);
+                            });
+                            let dd = this._element.closest('.dropdown').parentNode.closest('.dropdown');
+                            for (; dd && dd !== document; dd = dd.parentNode.closest('.dropdown')) {
+                                dd.classList.add(CLASS_NAME);
+                            }
+                            return _orginal.call(this);
+                        }
+                    }($bs.Dropdown.prototype.toggle);
+
+                    document.querySelectorAll('.dropdown').forEach(function (dd) {
+                        dd.addEventListener('hide.bs.dropdown', function (e) {
+                            if (this.classList.contains(CLASS_NAME)) {
+                                this.classList.remove(CLASS_NAME);
+                                e.preventDefault();
+                            }
+                            e.stopPropagation();
+                        });
+                    });
+
+                    document.querySelectorAll('.dropdown-hover, .dropdown-hover-all .dropdown').forEach(function (dd) {
+                        dd.addEventListener('mouseenter', function (e) {
+                            let toggle = e.target.querySelector(':scope>[data-bs-toggle="dropdown"]');
+                            if (!toggle.classList.contains('show')) {
+                                $bs.Dropdown.getOrCreateInstance(toggle).toggle();
+                                dd.classList.add(CLASS_NAME);
+                                $bs.Dropdown.clearMenus();
+                            }
+                        });
+                        dd.addEventListener('click', function (e) {
+                            $bs.Dropdown.clearMenus();
+                        });
+                    });
+                })(bootstrap);
+
+                document.querySelectorAll('a').forEach(value => {
+                    if (value.lastChild == null) {
+                        value.remove();
+                    }
+                });
+
+                document.querySelectorAll('.dropdown-menu').forEach(value => {
+                    if (value.lastChild == null) {
+                        value.setAttribute('style', 'display: none');
+                    }
+                });
+            }
+        });
+    }
+
+    function getItemsByCategoryId(category_id, category_name) {
+        let category = document.getElementById("category");
+        category.value = category_name;
+        document.getElementById("categoryId").value = category_id;
+    }
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>

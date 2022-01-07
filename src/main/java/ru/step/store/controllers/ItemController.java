@@ -110,10 +110,9 @@ public class ItemController {
                           @RequestParam("filename") MultipartFile filename,
                           Item item) {
         if (categoryId.isEmpty()) {
-            item.setCategory(null);
-        } else {
-            item.setCategory(categoryRepository.findCategoryById(Long.parseLong(categoryId)));
+            categoryId = "1";
         }
+        item.setCategory(categoryRepository.findCategoryById(Long.parseLong(categoryId)));
         item.setName(name);
         item.setSize(size);
         item.setPrice(BigInteger.valueOf(Long.parseLong(price)));

@@ -103,15 +103,15 @@
                 allCategories = JSON.parse(data);
                 for (let i = 0; i < allCategories.length; i++) {
                     if (allCategories[i].category == null) {
-                        createChild(allCategories[i].id, allCategories[i].name, categories, 0);
+                        createChild(allCategories[i].id, allCategories[i].name, categories, 1);
                     } else {
                         let parent = document.getElementById("t_" + allCategories[i].category.id);
-                        if (allCategories[allCategories[i].category.id - 1].category != null) {
+                        /*if (allCategories[allCategories[i].category.id - 1].id !== '1') {
                             createChild(allCategories[i].id, allCategories[i].name, document.getElementById("t_" + allCategories[i].category.id)
                                 , allCategories[i].id);
-                        } else {
+                        } else {*/
                             createChild(allCategories[i].id, allCategories[i].name, parent, allCategories[i].id);
-                        }
+                        /*}*/
                     }
                 }
 
