@@ -20,6 +20,7 @@
     <h1>Оформление заказа</h1>
     <hr>
     <form th:action="'order/create'" method="get">
+        <button th:if="${cart.size()} > 0" type="submit" class="btn btn-primary">Оформить заказ</button>
         <table class="table">
             <thead>
             <tr>
@@ -44,7 +45,6 @@
             </tr>
             </tfoot>
         </table>
-        <button th:if="${cart.size()} > 0" type="submit" class="btn btn-primary">Оформить заказ</button>
         <p th:if="${cart.size()} == 0">В корзине пусто</p>
     </form>
 </div>

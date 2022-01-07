@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.math.BigInteger;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -53,6 +55,8 @@ public class OrderController {
     public String buyItems(@AuthenticationPrincipal User user) {
         Order order = new Order();
         order.setUser(user);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        order.setDate(LocalDateTime.now().format(formatter));
         List<OrderElement> orderElements = orderElementRepository.findOrderElementsByUserAndArranged(user, false);
         order.setOrderElements(orderElements);
         orderRepository.save(order);
