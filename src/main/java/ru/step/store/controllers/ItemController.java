@@ -173,4 +173,16 @@ public class ItemController {
     public Page<Item> getAllItems(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page) {
         return itemRepository.findAll(PageRequest.of(page, 3));
     }
+
+    @ResponseBody
+    @PostMapping("/brands")
+    public Iterable<Brand> getAllBrands() {
+        return brandRepository.findAll();
+    }
+
+    @ResponseBody
+    @PostMapping("/colors")
+    public Iterable<Color> getAllColors() {
+        return colorRepository.findAll();
+    }
 }
