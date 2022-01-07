@@ -32,6 +32,8 @@
     <h1>Категория</h1>
     <hr>
     <form th:action="'/category/create'" method="post">
+        <input type="submit" class="btn btn-primary" value="ОК">
+        <hr>
         <div class="input-group mb-3">
             <button class="btn btn-light dropdown dropdown-hover-all">
                 <a id="dropdownMenuButton222" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
@@ -48,7 +50,6 @@
                    aria-describedby="inputGroup-sizing-default" required>
         </div>
         <hr>
-        <input type="submit" class="btn btn-primary" value="Применить изменения">
     </form>
 </div>
 <script>
@@ -74,12 +75,7 @@
                         createChild(allCategories[i].id, allCategories[i].name, categories, 1);
                     } else {
                         let parent = document.getElementById("t_" + allCategories[i].category.id);
-                        /*if (allCategories[allCategories[i].category.id - 1].id !== '1') {
-                            createChild(allCategories[i].id, allCategories[i].name, document.getElementById("t_" + allCategories[i].category.id)
-                                , allCategories[i].id);
-                        } else {*/
                         createChild(allCategories[i].id, allCategories[i].name, parent, allCategories[i].id);
-                        /*}*/
                     }
                 }
 

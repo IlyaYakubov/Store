@@ -62,8 +62,8 @@
     </div>
 </nav>
 <br>
-<div class="container" id="items">
-    <div class="card" th:each="item : ${items}">
+<div class="container-fluid row justify-content-md-center" id="items">
+    <div class="card col" th:each="item : ${items}">
         <a class="nav-link active" th:href="@{'/catalog/items/' + ${item.id}}">
             <img class="img-thumbnail" th:src="@{'/images/' + ${item.filename}}" alt="Картинка"/>
         </a>
@@ -73,7 +73,7 @@
 </div>
 <div class="container">
     <nav aria-label="Pages">
-        <ul class="pagination" id="pages">
+        <ul class="pagination justify-content-md-center" id="pages">
             <li class="page-item" th:each="page : ${pages}">
                 <a class="page-link" th:onclick="|getPaginationItems(${page})|" th:text="${page + 1}"></a>
             </li>
@@ -106,12 +106,7 @@
                         createChild(allCategories[i].id, allCategories[i].name, categories, 1);
                     } else {
                         let parent = document.getElementById("t_" + allCategories[i].category.id);
-                        /*if (allCategories[allCategories[i].category.id - 1].id !== '1') {
-                            createChild(allCategories[i].id, allCategories[i].name, document.getElementById("t_" + allCategories[i].category.id)
-                                , allCategories[i].id);
-                        } else {*/
-                            createChild(allCategories[i].id, allCategories[i].name, parent, allCategories[i].id);
-                        /*}*/
+                        createChild(allCategories[i].id, allCategories[i].name, parent, allCategories[i].id);
                     }
                 }
 
@@ -192,7 +187,8 @@
                 itemsDiv.innerHTML = "";
                 for (let item of items.content) {
                     let node = document.createElement("div");
-                    node.innerHTML = `<div class="card"><a class="nav-link active" href="/catalog/items/${item.id}"><img class="img-thumbnail" src="/images/${item.filename}" alt="Картинка"/></a><p>${item.name}</p><p>${item.price} &#8381;</p></div>`;
+                    node.innerHTML = `<a class="nav-link active" href="/catalog/items/${item.id}"><img class="img-thumbnail" src="/images/${item.filename}" alt="Картинка"/></a><p>${item.name}</p><p>${item.price} &#8381;</p>`;
+                    node.className = "card col";
                     itemsDiv.appendChild(node);
                 }
 
@@ -200,8 +196,8 @@
                 pages.innerHTML = "";
                 for (let i = 1; i <= items.totalPages; i++) {
                     let pagination = document.createElement("li");
-                    pagination.className = "page-item";
                     pagination.innerHTML = `<a class="page-link" onclick="getPagination(${category_id},${i - 1})">${i}</a>`;
+                    pagination.className = "page-item";
                     pages.appendChild(pagination);
                 }
             }
@@ -227,7 +223,10 @@
                 itemsDiv.innerHTML = "";
                 for (let item of items.content) {
                     let node = document.createElement("div");
-                    node.innerHTML = `<div class="card"><a class="nav-link active" href="/catalog/items/${item.id}"><img class="img-thumbnail" src="/images/${item.filename}" alt="Картинка"/></a><p>${item.name}</p><p>${item.price} &#8381;</p></div>`;
+                    node.innerHTML = `<a class="nav-link active" href="/catalog/items/${item.id}">
+<img class="img-thumbnail" src="/images/${item.filename}" alt="Картинка"/></a>
+<p>${item.name}</p><p>${item.price} &#8381;</p>`;
+                    node.className = "card col";
                     itemsDiv.appendChild(node);
                 }
             }

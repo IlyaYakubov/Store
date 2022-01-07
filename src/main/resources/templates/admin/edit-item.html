@@ -36,6 +36,8 @@
     </form>
     <hr>
     <form th:action="'/item/' + ${item.id}" method="post" enctype="multipart/form-data">
+        <input type="submit" class="btn btn-primary" value="ОК">
+        <hr>
         <div class="input-group mb-3">
             <button class="btn btn-light dropdown dropdown-hover-all">
                 <a id="dropdownMenuButton222" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
@@ -52,10 +54,10 @@
                    aria-describedby="inputGroup-sizing-default" required>
         </div>
         <div class="input-group mb-3">
-            <span class="input-group-text" id="inputGroup-sizing-default3">Бренд</span>
+            <!--<span class="input-group-text" id="inputGroup-sizing-default3">Бренд</span>-->
             <div class="dropdown">
                 <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" onclick="getAllBrands()">
-                    Выбор бренда
+                    Бренд
                 </button>
                 <ul id="brand" class="dropdown-menu" aria-labelledby="dropdownMenuButton1"></ul>
             </div>
@@ -68,10 +70,10 @@
                    aria-describedby="inputGroup-sizing-default" required>
         </div>
         <div class="input-group mb-3">
-            <span class="input-group-text" id="inputGroup-sizing-default5">Цвет</span>
+            <!--<span class="input-group-text" id="inputGroup-sizing-default5">Цвет</span>-->
             <div class="dropdown">
                 <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false" onclick="getAllColors()">
-                    Выбор цвета
+                    Цвет
                 </button>
                 <ul id="color" class="dropdown-menu" aria-labelledby="dropdownMenuButton2"></ul>
             </div>
@@ -112,7 +114,6 @@
             </div>
         </td>
         <hr>
-        <input type="submit" class="btn btn-primary" value="Применить изменения">
     </form>
 </div>
 <script>
