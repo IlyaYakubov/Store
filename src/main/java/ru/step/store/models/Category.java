@@ -1,6 +1,8 @@
 package ru.step.store.models;
 
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -14,7 +16,9 @@ public class Category {
     private Long id;
     private String name;
 
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @OneToOne
+    @JoinColumn(name = "category_id")
     private Category category;
 
     @Override

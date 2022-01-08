@@ -1,6 +1,8 @@
 package ru.step.store.models;
 
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.math.BigInteger;
@@ -24,6 +26,8 @@ public class Item {
     @ManyToOne
     private Color color;
 
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne
+    @JoinColumn(name = "category_id")
     private Category category;
 }
