@@ -1,6 +1,8 @@
 package ru.step.store.models;
 
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -17,9 +19,13 @@ public class Order {
 
     private String date;
 
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_id")
     private List<OrderElement> orderElements;
 }

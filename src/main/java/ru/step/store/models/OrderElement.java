@@ -1,6 +1,8 @@
 package ru.step.store.models;
 
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.math.BigInteger;
@@ -18,10 +20,12 @@ public class OrderElement {
 
     private BigInteger sum;
 
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne
     @JoinColumn(name = "item_id")
     private Item item;
 
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne
     private User user;
 
