@@ -17,7 +17,7 @@
     </div>
 </nav>
 <br>
-<div class="container">
+<div class="container" id="item">
     <div class="container">
         <hr>
         <div class="row">
@@ -51,7 +51,7 @@
         </div>
     </div>
     <hr>
-    <form th:action="'/buy/' + ${item.id}" method="post" th:if="${user == 'anonymous'}">
+    <form th:action="'/buy/' + ${item.id}" th:if="${user == 'anonymous'}">
         <div class="d-grid gap-2 col-114 mx-auto">
             <button type="submit" class="btn btn-primary">Купить</button>
         </div>

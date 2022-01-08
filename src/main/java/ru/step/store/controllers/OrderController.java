@@ -1,15 +1,12 @@
 package ru.step.store.controllers;
 
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import ru.step.store.models.*;
 import ru.step.store.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
@@ -27,6 +24,9 @@ public class OrderController {
 
     @Autowired
     private OrderElementRepository orderElementRepository;
+
+    @Autowired
+    private RealizationRepository realizationRepository;
 
     @GetMapping("/order")
     public String getOrder(Model model, @AuthenticationPrincipal User user) {
@@ -71,8 +71,14 @@ public class OrderController {
         return "redirect:/";
     }
 
+    @GetMapping("/buy/{id}")
+    public String buyItems(Model model, @PathVariable Long id) {
+        model.addAttribute("item", itemRepository.findItemById(id));
+        return "/user/realization";
+    }
+
     @PostMapping("/buy/{id}")
-    public String buyItems(@PathVariable Long id) {
+    public String buy(@PathVariable Long id, @RequestParam (value = "phone") String phone) {
         Item item = itemRepository.findById(id).get();
         OrderElement orderElement = new OrderElement();
         orderElement.setItem(item);
@@ -88,6 +94,12 @@ public class OrderController {
 
         orderElement.setArranged(true);
         orderElementRepository.save(orderElement);
+
+        Realization realization = new Realization();
+        realization.setOrder(order);
+        realization.setPhone(phone);
+        realizationRepository.save(realization);
+
         return "redirect:/";
     }
 }

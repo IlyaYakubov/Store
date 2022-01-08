@@ -7,6 +7,8 @@ import ru.step.store.models.Item;
 
 public interface ItemRepository extends CrudRepository<Item, Long> {
 
+    Item findItemById(Long id);
+
     Item findItemByName(String name);
 
     Item findItemByCategory_Id(Long categoryId);
