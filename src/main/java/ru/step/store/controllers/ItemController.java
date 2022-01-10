@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.step.store.models.Brand;
 import ru.step.store.models.Color;
 import ru.step.store.models.Item;
+import ru.step.store.models.User;
 import ru.step.store.repositories.BrandRepository;
 import ru.step.store.repositories.CategoryRepository;
 import ru.step.store.repositories.ColorRepository;
@@ -19,6 +21,7 @@ import ru.step.store.repositories.ItemRepository;
 import ru.step.store.storage.StorageService;
 
 import java.math.BigInteger;
+import java.util.stream.IntStream;
 
 @Controller
 public class ItemController {
@@ -159,6 +162,23 @@ public class ItemController {
 
     static class StorageFileNotFoundException extends Exception {
 
+    }
+
+    @GetMapping("/items/{category_id}")
+    public String getItemsByCategory(@AuthenticationPrincipal User user,
+                                     @PathVariable Long category_id,
+                                     Model model,
+                                     @RequestParam(value = "page", required = false, defaultValue = "0") Integer page) {
+        Page<Item> items = itemRepository.findItemsByCategory_Id(category_id, PageRequest.of(page, 3));
+        model.addAttribute("items", items.getContent());
+        model.addAttribute("pages", IntStream.range(0, items.getTotalPages()).toArray());
+        model.addAttribute("category_id", category_id);
+
+        model.addAttribute("user", "anonymous");
+        if (user != null) {
+            model.addAttribute("user", user.getUsername());
+        }
+        return "index";
     }
 
     @ResponseBody

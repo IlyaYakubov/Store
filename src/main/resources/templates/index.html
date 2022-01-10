@@ -57,7 +57,9 @@
             </ul>
         </form>
         <form th:if="${user != 'anonymous'}" th:action="@{/logout}" method="post" class="d-flex">
-            <div class="container"><button class="btn btn-danger" type="submit">Выйти</button></div>
+            <div class="container">
+                <button class="btn btn-danger" type="submit">Выйти</button>
+            </div>
         </form>
     </div>
 </nav>
@@ -75,7 +77,8 @@
     <nav aria-label="Pages">
         <ul class="pagination justify-content-md-center" id="pages">
             <li class="page-item" th:each="page : ${pages}">
-                <a class="page-link" th:href="'/catalog/?page=' + ${page}" th:text="${page + 1}"></a>
+                <a class="page-link" th:if="${category_id == null}" th:href="'/catalog/?page=' + ${page}" th:text="${page + 1}"></a>
+                <a class="page-link" th:if="${category_id != null}" th:href="'/items/' + ${category_id} + '?page=' + ${page}" th:text="${page + 1}"></a>
             </li>
         </ul>
     </nav>
@@ -173,35 +176,7 @@
     }
 
     function getItemsByCategoryId(category_id, page) {
-        $.ajax({
-            url: "/items/" + category_id + "?page=" + page,
-            method: "post",
-            cache: false,
-            dataType: "html",
-            data: {
-                // nothing
-            },
-            success: function (data) {
-                let items = JSON.parse(data);
-                let itemsDiv = document.getElementById("items");
-                itemsDiv.innerHTML = "";
-                for (let item of items.content) {
-                    let node = document.createElement("div");
-                    node.innerHTML = `<a class="nav-link active" href="/catalog/items/${item.id}"><img class="img-thumbnail" src="/images/${item.filename}" alt="Картинка"/></a><p>${item.name}</p><p>${item.price} &#8381;</p>`;
-                    node.className = "card col";
-                    itemsDiv.appendChild(node);
-                }
-
-                let pages = document.getElementById("pages");
-                pages.innerHTML = "";
-                for (let i = 1; i <= items.totalPages; i++) {
-                    let pagination = document.createElement("li");
-                    pagination.innerHTML = `<a class="page-link" onclick="getPagination(${category_id},${i - 1})">${i}</a>`;
-                    pagination.className = "page-item";
-                    pages.appendChild(pagination);
-                }
-            }
-        });
+        document.location.href = "/items/" + category_id + "?page=" + page;
     }
 
     function getPagination(category_id, page) {
