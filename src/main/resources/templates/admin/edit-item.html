@@ -39,6 +39,11 @@
         <input type="submit" class="btn btn-primary" value="ОК">
         <hr>
         <div class="input-group mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-default2">Наименование</span>
+            <input type="text" class="form-control" aria-label="name" name="name" th:value="${item.name}"
+                   aria-describedby="inputGroup-sizing-default" required>
+        </div>
+        <div class="input-group mb-3">
             <button class="btn btn-light dropdown dropdown-hover-all">
                 <a id="dropdownMenuButton222" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                    onclick="getCategories()">Категория</a>
@@ -49,12 +54,6 @@
             <input type="hidden" id="categoryId" name="categoryId" th:value="${item.category.id}">
         </div>
         <div class="input-group mb-3">
-            <span class="input-group-text" id="inputGroup-sizing-default2">Наименование</span>
-            <input type="text" class="form-control" aria-label="name" name="name" th:value="${item.name}"
-                   aria-describedby="inputGroup-sizing-default" required>
-        </div>
-        <div class="input-group mb-3">
-            <!--<span class="input-group-text" id="inputGroup-sizing-default3">Бренд</span>-->
             <div class="dropdown">
                 <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" onclick="getAllBrands()">
                     Бренд
@@ -70,7 +69,6 @@
                    aria-describedby="inputGroup-sizing-default" required>
         </div>
         <div class="input-group mb-3">
-            <!--<span class="input-group-text" id="inputGroup-sizing-default5">Цвет</span>-->
             <div class="dropdown">
                 <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false" onclick="getAllColors()">
                     Цвет
@@ -197,6 +195,10 @@
 
                 document.querySelectorAll('.dropdown-menu').forEach(value => {
                     if (value.lastChild == null) {
+                        if (value.id === 'brand' || value.id === 'color') {
+                            return;
+                        }
+
                         value.setAttribute('style', 'display: none');
                     }
                 });
