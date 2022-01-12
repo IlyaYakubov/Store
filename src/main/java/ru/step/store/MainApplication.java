@@ -1,5 +1,6 @@
 package ru.step.store;
 
+import org.springframework.context.annotation.ComponentScan;
 import ru.step.store.storage.StorageProperties;
 import ru.step.store.storage.StorageService;
 import org.springframework.boot.CommandLineRunner;
@@ -10,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 @EnableConfigurationProperties(StorageProperties.class)
+@ComponentScan({"ru.step.store.controllers"})
 public class MainApplication {
 
 	public static void main(String[] args) {
