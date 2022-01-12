@@ -1,5 +1,6 @@
 package ru.step.store;
 
+import org.springframework.context.annotation.ComponentScan;
 import ru.step.store.storage.StorageProperties;
 import ru.step.store.storage.StorageService;
 import org.springframework.boot.CommandLineRunner;
