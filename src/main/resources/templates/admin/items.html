@@ -49,12 +49,12 @@
             </thead>
             <tbody>
                 <tr th:each="item : ${items}">
-                    <td><a th:href="'/items/' + ${item.id}" th:text="${item.category}"></a></td>
-                    <td><a th:href="'/items/' + ${item.id}" th:text="${item.name}"></a></td>
-                    <td><a th:href="'/items/' + ${item.id}" th:text="${item.brand}"></a></td>
-                    <td><a th:href="'/items/' + ${item.id}" th:text="${item.size}"></a></td>
-                    <td><a th:href="'/items/' + ${item.id}" th:text="${item.color}"></a></td>
-                    <td><a th:href="'/items/' + ${item.id}" th:text="${item.price}"></a></td>
+                    <td><a th:href="'/items/edit/' + ${item.id}" th:text="${item.category}"></a></td>
+                    <td><a th:href="'/items/edit/' + ${item.id}" th:text="${item.name}"></a></td>
+                    <td><a th:href="'/items/edit/' + ${item.id}" th:text="${item.brand}"></a></td>
+                    <td><a th:href="'/items/edit/' + ${item.id}" th:text="${item.size}"></a></td>
+                    <td><a th:href="'/items/edit/' + ${item.id}" th:text="${item.color}"></a></td>
+                    <td><a th:href="'/items/edit/' + ${item.id}" th:text="${item.price}"></a></td>
                 </tr>
             </tbody>
         </table>

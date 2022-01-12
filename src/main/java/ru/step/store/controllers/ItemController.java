@@ -77,7 +77,7 @@ public class ItemController {
         return "redirect:/items";
     }
 
-    @GetMapping("/item/{id}")
+    @GetMapping("/items/{id}")
     public String editItem(@PathVariable("id") Long id, Model model) {
         Item item = itemRepository.findById(id).get();
         model.addAttribute("item", item);
