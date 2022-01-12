@@ -1,15 +1,12 @@
 package ru.step.store.controllers;
 
+import org.springframework.web.bind.annotation.*;
+import ru.step.store.models.*;
+import ru.step.store.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import ru.step.store.models.*;
-import ru.step.store.repositories.ItemRepository;
-import ru.step.store.repositories.OrderElementRepository;
-import ru.step.store.repositories.OrderRepository;
-import ru.step.store.repositories.RealizationRepository;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
@@ -40,28 +37,23 @@ public class OrderController {
             sum = sum.add(orderElement.getSum());
         }
         model.addAttribute("sum", sum);
-
-        model.addAttribute("user", "anonymous");
-        if (user != null) {
-            model.addAttribute("user", user.getUsername());
-        }
         return "/user/order";
     }
 
     @ResponseBody
-    @PostMapping("/order/{id}/{quantity}")
-    public String addInOrder(@PathVariable Long id, @PathVariable Long quantity, @AuthenticationPrincipal User user) {
-        Item item = itemRepository.findById(id).orElseThrow();
+    @PostMapping("/order/{id}")
+    public String addInOrder(@PathVariable Long id, @AuthenticationPrincipal User user) {
+        Item item = itemRepository.findById(id).get();
         OrderElement orderElement = new OrderElement();
         orderElement.setItem(item);
-        orderElement.setQuantity(quantity);
-        orderElement.setSum(item.getPrice().multiply(new BigInteger(String.valueOf(quantity))));
+        orderElement.setQuantity(1L);
+        orderElement.setSum(item.getPrice());
         orderElement.setUser(user);
         orderElementRepository.save(orderElement);
-        return "Товар в корзине";
+        return "Товар добавлен в корзину";
     }
 
-    @PostMapping("/order/create")
+    @GetMapping("/order/create")
     public String buyItems(@AuthenticationPrincipal User user) {
         Order order = new Order();
         order.setUser(user);
@@ -79,12 +71,6 @@ public class OrderController {
         return "redirect:/";
     }
 
-    @PostMapping("/order/delete/{id}")
-    public String deleteItem(@PathVariable Long id) {
-        orderElementRepository.delete(orderElementRepository.findById(id).orElseThrow());
-        return "redirect:/order";
-    }
-
     @GetMapping("/buy/{id}")
     public String buyItems(Model model, @PathVariable Long id) {
         model.addAttribute("item", itemRepository.findItemById(id));
@@ -92,8 +78,8 @@ public class OrderController {
     }
 
     @PostMapping("/buy/{id}")
-    public String buy(@PathVariable Long id, @RequestParam(value = "phone") String phone) {
-        Item item = itemRepository.findById(id).orElseThrow();
+    public String buy(@PathVariable Long id, @RequestParam (value = "phone") String phone) {
+        Item item = itemRepository.findById(id).get();
         OrderElement orderElement = new OrderElement();
         orderElement.setItem(item);
         orderElement.setQuantity(1L);
