@@ -53,7 +53,7 @@ public class OrderController {
         return "Товар добавлен в корзину";
     }
 
-    @GetMapping("/order/create")
+    @PostMapping("/order/create")
     public String buyItems(@AuthenticationPrincipal User user) {
         Order order = new Order();
         order.setUser(user);
