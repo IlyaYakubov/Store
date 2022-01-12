@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 @EnableConfigurationProperties(StorageProperties.class)
-@ComponentScan({"ru.step.store.controllers"})
 public class MainApplication {
 
 	public static void main(String[] args) {
