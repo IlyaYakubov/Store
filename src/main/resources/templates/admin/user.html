@@ -33,23 +33,22 @@
 <div class="container-fluid">
     <h1 th:text="'О пользователе ' + ${user.username}"></h1>
     <hr>
-    <div class="row row-cols-12">
-        <div class="col-1">
+    <div class="container-fluid d-sm-flex">
+        <div class="mx-1 my-1">
             <a th:href="'/user/block/' + ${user.id}"/>
             <button type="button" class="btn btn-primary">Заблокировать</button>
             </a>
         </div>
-        <div class="col-1">
+        <div class="mx-1 my-1">
             <a th:href="'/user/unblock/' + ${user.id}"/>
             <button type="button" class="btn btn-primary">Разблокировать</button>
             </a>
         </div>
-        <div class="col-1">
+        <div class="mx-1 my-1">
             <a th:href="'/user/delete/' + ${user.id}"/>
             <button type="button" class="btn btn-primary">Удалить</button>
             </a>
         </div>
-        <div class="col-10"></div>
     </div>
     <br>
     <ul class="list-group list-group-flush">
