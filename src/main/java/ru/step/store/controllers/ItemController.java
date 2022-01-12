@@ -73,7 +73,7 @@ public class ItemController {
         return "redirect:/items";
     }
 
-    @GetMapping("/items/{id}")
+    @GetMapping("/items/edit/{id}")
     public String editItem(@PathVariable("id") Long id, Model model) {
         Item item = itemRepository.findById(id).get();
         model.addAttribute("item", item);
