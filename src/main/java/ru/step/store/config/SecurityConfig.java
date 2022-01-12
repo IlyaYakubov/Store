@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
                 .antMatchers("/", "/login", "/registration",
                         "/images/*", "/catalog/items/**", "/buy/**",
                         "/search", "/search/**", "/categories/all",
-                        "/items/**", "/catalog/**")
+                        "/items/**/**", "/catalog/**")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()

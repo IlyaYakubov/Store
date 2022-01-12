@@ -174,11 +174,38 @@
     }
 
     function getItemsByCategoryId(category_id, page) {
+        if (category_id === 1) {
+            getAllCategories();
+            return;
+        }
         document.location.href = "/items/" + category_id + "?page=" + page;
     }
 
     function getPagination(category_id, page) {
         getItemsByCategoryId(category_id, page);
+    }
+
+    function getAllCategories() {
+        $.ajax({
+            url: "/categories/all",
+            method: "post",
+            cache: false,
+            dataType: "html",
+            data: {
+                // nothing
+            },
+            success: function (data) {
+                allCategories = JSON.parse(data);
+                let display = document.getElementById("items");
+                display.innerHTML = '';
+                document.getElementById("pages").innerHTML = '';
+                for (let i = 1; i < allCategories.length; i++) {
+                    display.innerHTML += '<div class="card mb-4 shadow-lg"><a class="nav-link active mx-3" ' +
+                        'onclick="getItemsByCategoryId(' + allCategories[i].id + ', 0)">' +
+                        allCategories[i].name + '</a></div>';
+                }
+            }
+        });
     }
 </script>
 </body>
