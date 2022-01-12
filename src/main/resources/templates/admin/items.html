@@ -14,8 +14,11 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <div class="d-flex" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+                <form th:action="@{/logout}" method="post">
+                    <button class="btn btn-outline-success" type="submit">Выйти</button>
+                </form>
                 <li class="nav-item">
                     <a class="nav-link" th:href="'/admin'">Пользователи</a>
                 </li>
@@ -26,9 +29,6 @@
                     <a class="nav-link" th:href="'/items'">Товары</a>
                 </li>
             </ul>
-            <form th:action="@{/logout}" method="post">
-                <button class="btn btn-outline-success" type="submit">Выйти</button>
-            </form>
         </div>
     </div>
 </nav>

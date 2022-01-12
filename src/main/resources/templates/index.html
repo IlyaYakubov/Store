@@ -15,37 +15,32 @@
             width: 200px;
             height: 250px;
         }
-
-        .card {
-            border: thick double #32a1ce;
-            margin: 16px;
-            padding: 16px;
-            width: 50%;
-        }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <ul class="navbar-nav gap-3">
-        <li class="ms-3 nav-item dropdown dropdown-hover-all">
-            <a class="navbar-link" id="dropdownMenuButton222"
-               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-               onclick="getCategories()">
-                <img th:src="@{/images/hamburger.png}" alt="Каталог">
-            </a>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton222" id="categories"></div>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link active" th:href="'/'">Главная</a>
-        </li>
-    </ul>
-    <div class="container-fluid justify-content-end">
-        <form th:action="'/search'" class="d-flex gap-2 col-7">
-            <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Search"
-                   name="search" required>
-            <button class="btn btn-light" type="submit">Найти</button>
-            <ul class="navbar-nav mb-lg-0">
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <div class="d-flex container-fluid">
+        <ul class="navbar-nav">
+            <li class="ms-3 nav-item dropdown dropdown-hover-all">
+                <a class="navbar-link" id="dropdownMenuButton222"
+                   data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                   onclick="getCategories()">
+                    <img th:src="@{/images/hamburger.png}" alt="Каталог">
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton222" id="categories"></div>
+            </li>
+            <li class="ms-3 nav-item">
+                <a class="nav-link active" th:href="'/'">Главная</a>
+            </li>
+        </ul>
+        <div class="d-flex container-fluid justify-content-end">
+            <form th:action="'/search'" class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Search"
+                       name="search" required>
+                <button class="btn btn-light" type="submit">Найти</button>
+            </form>
+            <ul class="mx-3 navbar-nav">
                 <li class="nav-item" th:if="${user == 'anonymous'}">
                     <a class="nav-link active" th:text="Вход" th:href="@{/login}"></a>
                 </li>
@@ -55,28 +50,26 @@
                 <li class="nav-item mt-1" th:if="${user != 'anonymous'}">
                     <a class="nav-link active" th:text="${user}" th:href="'/cabinet/' + ${user}"></a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item mx-2">
                     <a class="nav-link active" th:if="${user != 'anonymous'}" th:href="'/order'">
                         <img th:src="@{/images/basket.png}" alt="Корзина">
                     </a>
                 </li>
             </ul>
-        </form>
-        <form th:if="${user != 'anonymous'}" th:action="@{/logout}" method="post" class="d-flex">
-            <div class="container">
+            <form th:if="${user != 'anonymous'}" th:action="@{/logout}" method="post" class="d-flex">
                 <button class="btn btn-danger" type="submit">Выйти</button>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </nav>
 <br>
-<div class="container-fluid row justify-content-md-center" id="items">
-    <div class="card col" th:each="item : ${items}">
+<div class="container-fluid d-md-flex justify-content-around" id="items">
+    <div class="card mb-4 shadow-lg" th:each="item : ${items}">
         <a class="nav-link active" th:href="@{'/catalog/items/' + ${item.id}}">
             <img class="img-thumbnail " th:src="@{'/images/' + ${item.filename}}" alt="Картинка"/>
         </a>
-        <p th:text="${item.name}"></p>
-        <p th:text="${item.price} + ' &#8381;'"></p>
+        <p class="mx-3" th:text="${item.name}"></p>
+        <p class="mx-3" th:text="${item.price} + ' &#8381;'"></p>
     </div>
 </div>
 <div class="container">
