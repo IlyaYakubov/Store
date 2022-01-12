@@ -65,10 +65,6 @@ public class ItemController {
                              @RequestParam("color") String colorName,
                              @RequestParam("price") String price,
                              @RequestParam("filename") MultipartFile filename) {
-        if (itemRepository.findItemByName(name) != null) {
-            return "redirect:/items";
-        }
-
         Item item = new Item();
         fillItem(categoryId, name, brandName, size, colorName, price, filename, item);
 
