@@ -37,7 +37,7 @@ public class OrderController {
             sum = sum.add(orderElement.getSum());
         }
         model.addAttribute("sum", sum);
-        return "/user/order";
+        return "user/order";
     }
 
     @ResponseBody
@@ -80,7 +80,7 @@ public class OrderController {
     @GetMapping("/buy/{id}")
     public String buyItems(Model model, @PathVariable Long id) {
         model.addAttribute("item", itemRepository.findItemById(id));
-        return "/user/realization";
+        return "user/realization";
     }
 
     @PostMapping("/buy/{id}")
