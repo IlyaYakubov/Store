@@ -71,6 +71,12 @@ public class OrderController {
         return "redirect:/";
     }
 
+    @PostMapping("/order/delete/{id}")
+    public String deleteItem(@PathVariable Long id) {
+        orderElementRepository.delete(orderElementRepository.findById(id).get());
+        return "redirect:/order";
+    }
+
     @GetMapping("/buy/{id}")
     public String buyItems(Model model, @PathVariable Long id) {
         model.addAttribute("item", itemRepository.findItemById(id));
