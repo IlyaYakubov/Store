@@ -37,6 +37,11 @@ public class OrderController {
             sum = sum.add(orderElement.getSum());
         }
         model.addAttribute("sum", sum);
+
+        model.addAttribute("user", "anonymous");
+        if (user != null) {
+            model.addAttribute("user", user.getUsername());
+        }
         return "/user/order";
     }
 
