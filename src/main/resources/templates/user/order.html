@@ -26,30 +26,28 @@
     <h1>Оформление заказа</h1>
     <hr>
     <div class="container">
-        <button th:if="${cart.size()} > 0" type="button" class="btn btn-primary" data-bs-toggle="modal"
-                data-bs-target="#exampleModal">Оформить заказ
-        </button>
+        <button th:if="${cart.size()} > 0" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Оформить заказ</button>
         <table class="table">
             <thead>
             <tr>
                 <th scope="col">Товар</th>
                 <th scope="col">Количество</th>
                 <th scope="col">Цена</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="cartElement : ${cart}">
                 <td th:text="${cartElement.item.name}"></td>
-                <td>1</td>
+                <td th:text="${cartElement.quantity}"></td>
                 <td th:text="${cartElement.item.price} + ' &#8381;'"></td>
-                <td><a class="nav-link active" th:onclick="|deleteItem(${cartElement.id})|">Удалить</a></td>
+                <td><a class="nav-link active" th:onclick="|deleteItem(${cartElement.id})|"><button type="button" class="btn-close" aria-label="Close"></button></a></td>
             </tr>
             </tbody>
             <tfoot>
             <tr>
                 <th scope="col"></th>
-                <td></td>
-                <td></td>
+                <td>Итого</td>
                 <td th:text="${sum} + ' &#8381;'"></td>
                 <td></td>
             </tr>

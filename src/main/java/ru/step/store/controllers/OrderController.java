@@ -41,16 +41,16 @@ public class OrderController {
     }
 
     @ResponseBody
-    @PostMapping("/order/{id}")
-    public String addInOrder(@PathVariable Long id, @AuthenticationPrincipal User user) {
+    @PostMapping("/order/{id}/{quantity}")
+    public String addInOrder(@PathVariable Long id, @PathVariable Long quantity, @AuthenticationPrincipal User user) {
         Item item = itemRepository.findById(id).get();
         OrderElement orderElement = new OrderElement();
         orderElement.setItem(item);
-        orderElement.setQuantity(1L);
-        orderElement.setSum(item.getPrice());
+        orderElement.setQuantity(quantity);
+        orderElement.setSum(item.getPrice().multiply(new BigInteger(String.valueOf(quantity))));
         orderElement.setUser(user);
         orderElementRepository.save(orderElement);
-        return "Товар добавлен в корзину";
+        return "Товар в корзине";
     }
 
     @PostMapping("/order/create")
