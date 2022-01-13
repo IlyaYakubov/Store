@@ -24,11 +24,6 @@
                 <li class="nav-item mt-1" th:if="${user != 'anonymous'}">
                     <a class="nav-link active" th:text="${user}" th:href="'/cabinet/' + ${user}"></a>
                 </li>
-                <li class="nav-item mx-2">
-                    <a class="nav-link active" th:if="${user != 'anonymous'}" th:href="'/order'">
-                        <img th:src="@{/images/basket.png}" alt="Корзина">
-                    </a>
-                </li>
             </ul>
             <form th:if="${user != 'anonymous'}" th:action="@{/logout}" method="post" class="d-flex">
                 <button class="btn btn-danger" type="submit">Выйти</button>
