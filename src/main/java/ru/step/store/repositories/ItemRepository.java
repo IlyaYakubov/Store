@@ -13,7 +13,7 @@ public interface ItemRepository extends CrudRepository<Item, Long> {
 
     Item findItemByName(String name);
 
-    Page<Item> findItemsByName(String name, Pageable pageable);
+    Page<Item> findByNameContainingIgnoreCase(String name, Pageable pageable);
 
     Page<Item> findItemsByBrand(Brand brand, Pageable pageable);
 
