@@ -37,7 +37,7 @@ public class SearchController {
                             Model model,
                             @AuthenticationPrincipal User user,
                             @RequestParam(value = "page", required = false, defaultValue = "0") Integer page) {
-        Page<Item> items = itemRepository.findItemsByName(search, PageRequest.of(page, 3));
+        Page<Item> items = itemRepository.findByNameContainingIgnoreCase(search, PageRequest.of(page, 3));
         if (items.getContent().size() == 0) {
             items = itemRepository.findItemsByBrand(brandRepository.findBrandByName(search), PageRequest.of(page, 3));
         }
