@@ -42,6 +42,7 @@
                 <td th:text="${cartElement.item.name}"></td>
                 <td>1</td>
                 <td th:text="${cartElement.item.price} + ' &#8381;'"></td>
+                <td><a class="nav-link active" th:onclick="|deleteItem(${cartElement.id})|">Удалить</a></td>
             </tr>
             </tbody>
             <tfoot>
@@ -50,6 +51,7 @@
                 <td></td>
                 <td></td>
                 <td th:text="${sum} + ' &#8381;'"></td>
+                <td></td>
             </tr>
             </tfoot>
         </table>
@@ -87,6 +89,21 @@
             },
             success: function (data) {
                 document.location.href = "/";
+            }
+        });
+    }
+
+    function deleteItem(id) {
+        $.ajax({
+            url: "/order/delete/" + id,
+            method: "post",
+            cache: false,
+            dataType: "html",
+            data: {
+                // nothing
+            },
+            success: function (data) {
+                document.location.href = "/order";
             }
         });
     }
