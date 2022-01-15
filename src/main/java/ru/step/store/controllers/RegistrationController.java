@@ -26,6 +26,9 @@ public class RegistrationController {
 
     @PostMapping
     public String processUser(RegistrationForm form) {
+        if (userRepository.findUserByUsername(form.getUsername()) != null) {
+            return "redirect:/registration";
+        }
         userRepository.save(form.toUser(passwordEncoder));
         return "redirect:/login";
     }
