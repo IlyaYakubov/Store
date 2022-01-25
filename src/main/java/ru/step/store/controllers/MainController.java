@@ -39,29 +39,7 @@ public class MainController {
     public String getIndexPage(@AuthenticationPrincipal User user,
                                Model model,
                                @RequestParam(value = "page", required = false, defaultValue = "0") Integer page) {
-        Page<Item> items = itemRepository.findAll(PageRequest.of(page, 3));
-        model.addAttribute("items", items.getContent());
-        model.addAttribute("pages", IntStream.range(0, items.getTotalPages()).toArray());
-
-        if (user != null && user.getRoles().stream().findFirst().get().name().equals("ADMIN")) {
-            return "redirect:/admin";
-        }
-
-        final int[] counter = {0};
-        userRepository.findAll().forEach(role -> counter[0]++);
-        if (counter[0] == 0) {
-            User admin = new User();
-            admin.setUsername("admin");
-            admin.setPassword(passwordEncoder.encode("123"));
-            admin.setRoles(Collections.singleton(Role.ADMIN));
-            userRepository.save(admin);
-        }
-
-        model.addAttribute("user", "anonymous");
-        if (user != null) {
-            model.addAttribute("user", user.getUsername());
-        }
-        return "index";
+        return getIndexWithItems(user, model, page);
     }
 
     @GetMapping("/login")
@@ -71,7 +49,7 @@ public class MainController {
 
     @GetMapping("/catalog/items/{id}")
     public String getItem(@AuthenticationPrincipal User user, @PathVariable("id") Long id, Model model) {
-        Item item = itemRepository.findById(id).get();
+        Item item = itemRepository.findById(id).orElseThrow();
         model.addAttribute("item", item);
         model.addAttribute("filename", item.getFilename());
 
@@ -90,19 +68,23 @@ public class MainController {
 
     @GetMapping("/catalog/")
     public String getItemFromPage(@AuthenticationPrincipal User user,
-                               Model model,
-                               @RequestParam(value = "page", required = false, defaultValue = "0") Integer page) {
+                                  Model model,
+                                  @RequestParam(value = "page", required = false, defaultValue = "0") Integer page) {
+        return getIndexWithItems(user, model, page);
+    }
+
+    private String getIndexWithItems(@AuthenticationPrincipal User user, Model model, @RequestParam(value = "page", required = false, defaultValue = "0") Integer page) {
         Page<Item> items = itemRepository.findAll(PageRequest.of(page, 3));
         model.addAttribute("items", items.getContent());
         model.addAttribute("pages", IntStream.range(0, items.getTotalPages()).toArray());
 
-        if (user != null && user.getRoles().stream().findFirst().get().name().equals("ADMIN")) {
+        if (user != null && user.getRoles().stream().findFirst().orElseThrow().name().equals("ADMIN")) {
             return "redirect:/admin";
         }
 
-        final int[] counter = {0};
-        userRepository.findAll().forEach(role -> counter[0]++);
-        if (counter[0] == 0) {
+        final int[] COUNTER = {0};
+        userRepository.findAll().forEach(role -> COUNTER[0]++);
+        if (COUNTER[0] == 0) {
             User admin = new User();
             admin.setUsername("admin");
             admin.setPassword(passwordEncoder.encode("123"));

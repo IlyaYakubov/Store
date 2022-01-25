@@ -1,7 +1,7 @@
 package ru.step.store.repositories;
 
-import ru.step.store.models.Order;
 import org.springframework.data.repository.CrudRepository;
+import ru.step.store.models.Order;
 import ru.step.store.models.User;
 
 import java.util.List;

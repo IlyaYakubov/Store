@@ -1,21 +1,22 @@
 package ru.step.store.controllers;
 
-import org.hibernate.collection.internal.PersistentSet;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import ru.step.store.models.Category;
-import ru.step.store.models.Role;
-import ru.step.store.models.User;
-import ru.step.store.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ru.step.store.models.Category;
+import ru.step.store.models.Role;
+import ru.step.store.models.User;
+import ru.step.store.repositories.CategoryRepository;
 
 @Controller
 public class CategoryController {
+
+    private static final String ROOT_CATEGORY = "1";
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -58,7 +59,7 @@ public class CategoryController {
         if (!((Role) user.getRoles().toArray()[0]).name().equals("ADMIN")) {
             return "redirect:/";
         }
-        model.addAttribute("category", categoryRepository.findById(id).get());
+        model.addAttribute("category", categoryRepository.findById(id).orElseThrow());
         return "admin/edit-category";
     }
 
@@ -74,10 +75,10 @@ public class CategoryController {
                 return "redirect:/categories";
             }
         }
-        Category category = categoryRepository.findById(id).get();
+        Category category = categoryRepository.findById(id).orElseThrow();
         category.setName(name);
         if (categoryId.isEmpty()) {
-            categoryId = "1";
+            categoryId = ROOT_CATEGORY;
         }
         category.setCategory(categoryRepository.findCategoryById(Long.parseLong(categoryId)));
         categoryRepository.save(category);
@@ -90,7 +91,7 @@ public class CategoryController {
         if (!((Role) user.getRoles().toArray()[0]).name().equals("ADMIN")) {
             return "redirect:/";
         }
-        categoryRepository.delete(categoryRepository.findById(id).get());
+        categoryRepository.delete(categoryRepository.findById(id).orElseThrow());
         return "redirect:/categories";
     }
 }

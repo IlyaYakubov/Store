@@ -18,6 +18,7 @@ import ru.step.store.repositories.ItemRepository;
 import ru.step.store.storage.StorageService;
 
 import java.math.BigInteger;
+import java.util.Objects;
 import java.util.stream.IntStream;
 
 @Controller
@@ -85,7 +86,7 @@ public class ItemController {
         if (!((Role) user.getRoles().toArray()[0]).name().equals("ADMIN")) {
             return "redirect:/";
         }
-        Item item = itemRepository.findById(id).get();
+        Item item = itemRepository.findById(id).orElseThrow();
         model.addAttribute("item", item);
         return "admin/edit-item";
     }
@@ -100,9 +101,9 @@ public class ItemController {
                              @RequestParam("price") String price,
                              @RequestParam("filenameImage") String filenameImage,
                              @RequestParam("filename") MultipartFile filename) {
-        Item item = itemRepository.findById(id).get();
+        Item item = itemRepository.findById(id).orElseThrow();
         fillItem(categoryId, name, brandName, size, colorName, price, filename, item);
-        if (filename.getOriginalFilename().isEmpty()) {
+        if (Objects.requireNonNull(filename.getOriginalFilename()).isEmpty()) {
             item.setFilename(filenameImage);
         }
         itemRepository.save(item);
@@ -135,7 +136,7 @@ public class ItemController {
             color = createColor(colorName);
         }
         item.setColor(color);
-        if (!filename.getOriginalFilename().isEmpty()) {
+        if (!Objects.requireNonNull(filename.getOriginalFilename()).isEmpty()) {
             storageService.store(filename);
         }
         item.setFilename(filename.getOriginalFilename());
@@ -160,12 +161,12 @@ public class ItemController {
         if (!((Role) user.getRoles().toArray()[0]).name().equals("ADMIN")) {
             return "redirect:/";
         }
-        itemRepository.delete(itemRepository.findById(id).get());
+        itemRepository.delete(itemRepository.findById(id).orElseThrow());
         return "redirect:/items";
     }
 
     @ExceptionHandler(StorageFileNotFoundException.class)
-    public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
+    public ResponseEntity<?> handleStorageFileNotFound() {
         return ResponseEntity.notFound().build();
     }
 

@@ -1,12 +1,15 @@
 package ru.step.store.controllers;
 
-import org.springframework.web.bind.annotation.*;
-import ru.step.store.models.*;
-import ru.step.store.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import ru.step.store.models.*;
+import ru.step.store.repositories.ItemRepository;
+import ru.step.store.repositories.OrderElementRepository;
+import ru.step.store.repositories.OrderRepository;
+import ru.step.store.repositories.RealizationRepository;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
@@ -48,7 +51,7 @@ public class OrderController {
     @ResponseBody
     @PostMapping("/order/{id}/{quantity}")
     public String addInOrder(@PathVariable Long id, @PathVariable Long quantity, @AuthenticationPrincipal User user) {
-        Item item = itemRepository.findById(id).get();
+        Item item = itemRepository.findById(id).orElseThrow();
         OrderElement orderElement = new OrderElement();
         orderElement.setItem(item);
         orderElement.setQuantity(quantity);
@@ -78,7 +81,7 @@ public class OrderController {
 
     @PostMapping("/order/delete/{id}")
     public String deleteItem(@PathVariable Long id) {
-        orderElementRepository.delete(orderElementRepository.findById(id).get());
+        orderElementRepository.delete(orderElementRepository.findById(id).orElseThrow());
         return "redirect:/order";
     }
 
@@ -89,8 +92,8 @@ public class OrderController {
     }
 
     @PostMapping("/buy/{id}")
-    public String buy(@PathVariable Long id, @RequestParam (value = "phone") String phone) {
-        Item item = itemRepository.findById(id).get();
+    public String buy(@PathVariable Long id, @RequestParam(value = "phone") String phone) {
+        Item item = itemRepository.findById(id).orElseThrow();
         OrderElement orderElement = new OrderElement();
         orderElement.setItem(item);
         orderElement.setQuantity(1L);
