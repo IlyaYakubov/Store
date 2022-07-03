@@ -1,23 +1,19 @@
 package ru.step.store.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PathVariable;
-import ru.step.store.models.Brand;
-import ru.step.store.models.Item;
-import ru.step.store.models.Role;
-import ru.step.store.models.User;
-import ru.step.store.repositories.BrandRepository;
-import ru.step.store.repositories.ColorRepository;
-import ru.step.store.repositories.ItemRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ru.step.store.models.Item;
+import ru.step.store.models.User;
+import ru.step.store.repositories.BrandRepository;
+import ru.step.store.repositories.ColorRepository;
+import ru.step.store.repositories.ItemRepository;
 
-import java.util.Collections;
 import java.util.stream.IntStream;
 
 @Controller
@@ -37,7 +33,7 @@ public class SearchController {
                             Model model,
                             @AuthenticationPrincipal User user,
                             @RequestParam(value = "page", required = false, defaultValue = "0") Integer page) {
-        Page<Item> items = itemRepository.findItemsByName(search, PageRequest.of(page, 3));
+        Page<Item> items = itemRepository.findByNameContainingIgnoreCase(search, PageRequest.of(page, 3));
         if (items.getContent().size() == 0) {
             items = itemRepository.findItemsByBrand(brandRepository.findBrandByName(search), PageRequest.of(page, 3));
         }

@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="https://www.thymeleaf.org">
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -77,7 +80,8 @@
         <tbody>
         <tr th:each="order : ${orders}">
             <td th:text="${order.date}"></td>
-            <td><div th:each="element : ${order.orderElements}" th:text="${element.item.name} + ' ' + ${element.sum} + ' &#8381;'"></div></td>
+            <td><div th:each="element : ${order.orderElements}" th:text="${element.item.name}
+            + ' в количестве ' + ${element.quantity} + ' шт. на сумму ' + ${element.sum} + ' &#8381;'"></div></td>
         </tr>
         </tbody>
     </table>

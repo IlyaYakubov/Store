@@ -10,10 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ru.step.store.models.Brand;
-import ru.step.store.models.Color;
-import ru.step.store.models.Item;
-import ru.step.store.models.User;
+import ru.step.store.models.*;
 import ru.step.store.repositories.BrandRepository;
 import ru.step.store.repositories.CategoryRepository;
 import ru.step.store.repositories.ColorRepository;
@@ -46,12 +43,18 @@ public class ItemController {
     }
 
     @GetMapping("/item/add")
-    public String getItem() {
+    public String getItem(@AuthenticationPrincipal User user) {
+        if (!((Role) user.getRoles().toArray()[0]).name().equals("ADMIN")) {
+            return "redirect:/";
+        }
         return "admin/item";
     }
 
     @GetMapping("/items")
-    public String getItems(Model model) {
+    public String getItems(Model model, @AuthenticationPrincipal User user) {
+        if (!((Role) user.getRoles().toArray()[0]).name().equals("ADMIN")) {
+            return "redirect:/";
+        }
         model.addAttribute("items", itemRepository.findAll());
         return "admin/items";
     }
@@ -65,10 +68,6 @@ public class ItemController {
                              @RequestParam("color") String colorName,
                              @RequestParam("price") String price,
                              @RequestParam("filename") MultipartFile filename) {
-        if (itemRepository.findItemByName(name) != null) {
-            return "redirect:/items";
-        }
-
         Item item = new Item();
         fillItem(categoryId, name, brandName, size, colorName, price, filename, item);
 
@@ -77,8 +76,11 @@ public class ItemController {
         return "redirect:/items";
     }
 
-    @GetMapping("/item/{id}")
-    public String editItem(@PathVariable("id") Long id, Model model) {
+    @GetMapping("/items/edit/{id}")
+    public String editItem(@PathVariable("id") Long id, Model model, @AuthenticationPrincipal User user) {
+        if (!((Role) user.getRoles().toArray()[0]).name().equals("ADMIN")) {
+            return "redirect:/";
+        }
         Item item = itemRepository.findById(id).get();
         model.addAttribute("item", item);
         return "admin/edit-item";
@@ -150,7 +152,10 @@ public class ItemController {
     }
 
     @GetMapping("/item/delete/{id}")
-    public String deleteItem(@PathVariable("id") Long id) {
+    public String deleteItem(@PathVariable("id") Long id, @AuthenticationPrincipal User user) {
+        if (!((Role) user.getRoles().toArray()[0]).name().equals("ADMIN")) {
+            return "redirect:/";
+        }
         itemRepository.delete(itemRepository.findById(id).get());
         return "redirect:/items";
     }

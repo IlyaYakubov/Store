@@ -52,7 +52,7 @@
         <div class="input-group mb-3">
             <span class="input-group-text" id="inputGroup-sizing-default6">Телефон</span>
             <input type="text" class="form-control" aria-label="phone" aria-describedby="inputGroup-sizing-default"
-                   name="phone" required>
+                   name="phone">
         </div>
         <div class="input-group mb-3">
             <span class="input-group-text" id="inputGroup-sizing-default7">Email</span>
@@ -71,6 +71,7 @@
                    aria-describedby="inputGroup-sizing-default"
                    name="confirm_password" id="confirm_password" onChange="checkPasswordMatch()" required>
         </div>
+        <div id="confirm_password_help" class="form-text">Вы сможете зарегистрироваться только когда пароль и подтверждение пароля будут совпадать</div>
         <div class="input-group mb-3">
             <div class="registrationFormAlert" id="divCheckPasswordMatch">
             </div>
@@ -121,10 +122,11 @@
         let password = $("#password").val();
         let confirmPassword = $("#confirm_password").val();
 
-        if (password !== confirmPassword)
+        if (password !== confirmPassword) {
             $("#registration").prop('disabled', true);
-        else
+        } else {
             $("#registration").prop('disabled', false);
+        }
     }
 
     $(document).ready(function () {

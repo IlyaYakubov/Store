@@ -37,23 +37,28 @@ public class OrderController {
             sum = sum.add(orderElement.getSum());
         }
         model.addAttribute("sum", sum);
-        return "/user/order";
+
+        model.addAttribute("user", "anonymous");
+        if (user != null) {
+            model.addAttribute("user", user.getUsername());
+        }
+        return "user/order";
     }
 
     @ResponseBody
-    @PostMapping("/order/{id}")
-    public String addInOrder(@PathVariable Long id, @AuthenticationPrincipal User user) {
+    @PostMapping("/order/{id}/{quantity}")
+    public String addInOrder(@PathVariable Long id, @PathVariable Long quantity, @AuthenticationPrincipal User user) {
         Item item = itemRepository.findById(id).get();
         OrderElement orderElement = new OrderElement();
         orderElement.setItem(item);
-        orderElement.setQuantity(1L);
-        orderElement.setSum(item.getPrice());
+        orderElement.setQuantity(quantity);
+        orderElement.setSum(item.getPrice().multiply(new BigInteger(String.valueOf(quantity))));
         orderElement.setUser(user);
         orderElementRepository.save(orderElement);
-        return "Товар добавлен в корзину";
+        return "Товар в корзине";
     }
 
-    @GetMapping("/order/create")
+    @PostMapping("/order/create")
     public String buyItems(@AuthenticationPrincipal User user) {
         Order order = new Order();
         order.setUser(user);
@@ -71,10 +76,16 @@ public class OrderController {
         return "redirect:/";
     }
 
+    @PostMapping("/order/delete/{id}")
+    public String deleteItem(@PathVariable Long id) {
+        orderElementRepository.delete(orderElementRepository.findById(id).get());
+        return "redirect:/order";
+    }
+
     @GetMapping("/buy/{id}")
     public String buyItems(Model model, @PathVariable Long id) {
         model.addAttribute("item", itemRepository.findItemById(id));
-        return "/user/realization";
+        return "user/realization";
     }
 
     @PostMapping("/buy/{id}")
