@@ -1,34 +1,18 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
->
+<html lang="ru" xmlns:th="https://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Заказ</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-    <div class="d-flex container-fluid">
-        <ul class="navbar-nav">
-            <li class="ms-3 nav-item">
-                <a class="nav-link active" th:href="'/'">Главная</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+                <a class="nav-link active" th:text="Главная" th:href="'/'"></a>
             </li>
         </ul>
-        <div class="d-flex container-fluid justify-content-end">
-            <ul class="mx-3 navbar-nav">
-                <li class="nav-item mt-1" th:if="${user != 'anonymous'}">
-                    <a class="nav-link active" th:text="${user}" th:href="'/cabinet/' + ${user}"></a>
-                </li>
-            </ul>
-            <form th:if="${user != 'anonymous'}" th:action="@{/logout}" method="post" class="d-flex">
-                <button class="btn btn-danger" type="submit">Выйти</button>
-            </form>
-        </div>
     </div>
 </nav>
 <br>
@@ -62,80 +46,14 @@
                 <td></td>
                 <td th:text="${sum} + ' &#8381;'"></td>
                 <td></td>
+                <td></td>
+                <td th:text="${sum} + ' &#8381;'"></td>
             </tr>
             </tfoot>
         </table>
         <p th:if="${cart.size()} == 0">В корзине пусто</p>
-    </div>
+    </form>
 </div>
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Подтверждение оформления заказа</h5>
-            </div>
-            <div class="modal-body">
-                После подтверждения Вами заказа, его можно посмотреть в личном кабинете, где хранится вся Ваша
-                история заказов
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="createOrder()">Оформить
-                    заказ
-                </button>
-                <button type="button" class="btn btn-primary" onclick="createOrderAndGetMainPage()">Оформить и вернуться на
-                    главную
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-<script>
-    function createOrderAndGetMainPage() {
-        $.ajax({
-            url: "/order/create/",
-            method: "post",
-            cache: false,
-            dataType: "html",
-            data: {
-                // nothing
-            },
-            success: function (data) {
-                document.location.href = "/";
-            }
-        });
-    }
-
-    function createOrder() {
-        $.ajax({
-            url: "/order/create/",
-            method: "post",
-            cache: false,
-            dataType: "html",
-            data: {
-                // nothing
-            },
-            success: function (data) {
-                document.location.href = "/order";
-            }
-        });
-    }
-
-    function deleteItem(id) {
-        $.ajax({
-            url: "/order/delete/" + id,
-            method: "post",
-            cache: false,
-            dataType: "html",
-            data: {
-                // nothing
-            },
-            success: function (data) {
-                document.location.href = "/order";
-            }
-        });
-    }
-</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
