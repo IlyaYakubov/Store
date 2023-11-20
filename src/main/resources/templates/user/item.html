@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="https://www.thymeleaf.org">
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -59,18 +62,13 @@
                     <li class="list-group-item" th:if="${user != 'anonymous'}">
                         <div class="container-fluid">
                             <div class="row">
-                                <div class="fs-4 mx-2 my-2 col d-flex">
-                                    <button type="button" class="btn btn-primary" onclick="minus()">-</button>
-                                    <div class="px-4" id="quantity">1</div>
-                                    <button type="button" class="btn btn-primary" onclick="plus()">+</button>
-                                </div>
                                 <div class="mx-2 my-2 col">
-                                    <button id="btnBasket" type="button" th:onclick="|addInOrder(${item.id})|" class="btn btn-primary">
+                                    <button type="button" th:onclick="|addInOrder(${item.id})|" class="btn btn-primary">
                                         В корзину
                                     </button>
                                 </div>
-                                <div class="mx-2 my-2 col">
-                                    <div class="col" id="status"></div>
+                                <div class="col">
+                                    <div class="mx-2 my-2 col" id="status"></div>
                                 </div>
                             </div>
                         </div>
@@ -124,11 +122,9 @@
 </div>
 
 <script>
-    let quantity = 1;
     function addInOrder(id) {
-        $("#btnBasket").prop('disabled', true);
         $.ajax({
-            url: "/order/" + id + "/" + quantity,
+            url: "/order/" + id,
             method: "post",
             cache: false,
             dataType: "html",
@@ -143,16 +139,6 @@
                 }, 1000)
             }
         });
-    }
-
-    function minus() {
-        if (quantity > 1) {
-            document.getElementById('quantity').innerText = --quantity;
-        }
-    }
-
-    function plus() {
-        document.getElementById('quantity').innerText = ++quantity;
     }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"

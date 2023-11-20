@@ -1,7 +1,7 @@
 package ru.step.store.repositories;
 
-import ru.step.store.models.Category;
 import org.springframework.data.repository.CrudRepository;
+import ru.step.store.models.Category;
 
 public interface CategoryRepository extends CrudRepository<Category, Long> {
 

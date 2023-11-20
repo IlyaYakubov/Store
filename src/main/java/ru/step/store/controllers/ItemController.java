@@ -10,7 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ru.step.store.models.*;
+import ru.step.store.models.Brand;
+import ru.step.store.models.Color;
+import ru.step.store.models.Item;
+import ru.step.store.models.User;
 import ru.step.store.repositories.BrandRepository;
 import ru.step.store.repositories.CategoryRepository;
 import ru.step.store.repositories.ColorRepository;
@@ -43,18 +46,12 @@ public class ItemController {
     }
 
     @GetMapping("/item/add")
-    public String getItem(@AuthenticationPrincipal User user) {
-        if (!((Role) user.getRoles().toArray()[0]).name().equals("ADMIN")) {
-            return "redirect:/";
-        }
+    public String getItem() {
         return "admin/item";
     }
 
     @GetMapping("/items")
-    public String getItems(Model model, @AuthenticationPrincipal User user) {
-        if (!((Role) user.getRoles().toArray()[0]).name().equals("ADMIN")) {
-            return "redirect:/";
-        }
+    public String getItems(Model model) {
         model.addAttribute("items", itemRepository.findAll());
         return "admin/items";
     }
@@ -77,10 +74,7 @@ public class ItemController {
     }
 
     @GetMapping("/items/edit/{id}")
-    public String editItem(@PathVariable("id") Long id, Model model, @AuthenticationPrincipal User user) {
-        if (!((Role) user.getRoles().toArray()[0]).name().equals("ADMIN")) {
-            return "redirect:/";
-        }
+    public String editItem(@PathVariable("id") Long id, Model model) {
         Item item = itemRepository.findById(id).get();
         model.addAttribute("item", item);
         return "admin/edit-item";
@@ -152,10 +146,7 @@ public class ItemController {
     }
 
     @GetMapping("/item/delete/{id}")
-    public String deleteItem(@PathVariable("id") Long id, @AuthenticationPrincipal User user) {
-        if (!((Role) user.getRoles().toArray()[0]).name().equals("ADMIN")) {
-            return "redirect:/";
-        }
+    public String deleteItem(@PathVariable("id") Long id) {
         itemRepository.delete(itemRepository.findById(id).get());
         return "redirect:/items";
     }
